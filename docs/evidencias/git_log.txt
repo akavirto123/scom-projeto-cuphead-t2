@@ -1,6 +1,17 @@
-*   62749e0 (HEAD -> main) release: Trabalho Individual II (backend, banco, autenticação e testes)
+*   7543a21 (HEAD -> main) release: Trabalho Individual II com visual vintage e relatório final
 |\  
-| *   de675a1 (develop) merge: docs/relatorio em develop
+| *   ec7ed1c (develop) merge: docs/relatorio-enxuto em develop
+| |\  
+| | * 145deed (docs/relatorio-enxuto) docs(relatorio): reescreve relatório no formato do T1 e atualiza capturas
+| |/  
+| * 3dd1798 merge: feature/visual-vintage em develop
+|/| 
+| * 2750cf5 (feature/visual-vintage) feat(frontend): novo visual vintage com fontes embutidas
+|/  
+* df0de6a docs(relatorio): atualiza histórico Git no anexo F
+*   62749e0 release: Trabalho Individual II (backend, banco, autenticação e testes)
+|\  
+| *   de675a1 merge: docs/relatorio em develop
 | |\  
 | | * 1c95110 (docs/relatorio) docs(relatorio): adiciona relatório técnico em LaTeX e PDF
 | |/  
