@@ -48,7 +48,8 @@ scom-projeto-cuphead/
 │   ├── index.html             Guia: chefes, conquistas, nova tática
 │   ├── conta.html             Login, cadastro e "minhas táticas"
 │   ├── admin.html             Painel do administrador
-│   ├── css/style.css          Estilos do T1 + componentes do T2
+│   ├── css/style.css          Tema vintage (anos 30) e componentes do T2
+│   ├── fonts/                 Fontes embutidas (Fascinate, Rye, Libre Baskerville, Special Elite)
 │   └── js/
 │       ├── api.js             Cliente HTTP (CSRF, erros padronizados)
 │       ├── dom.js             Criação segura de elementos (textContent)

@@ -1,83 +1,78 @@
-$ npm test   # node --test (unitários + integração + segurança)
+$ npm test
 ▶ API - fluxos principais
-  ✔ GET /api/chefes lista com paginação e filtro (público) (18.154682ms)
-  ✔ GET /api/chefes?busca encontra pelo nome sem diferenciar maiúsculas (11.080548ms)
-  ✔ CRUD completo de chefe pelo administrador (52.065513ms)
-  ✔ fluxo de tática: jogador envia, admin aprova, guia público exibe (43.620849ms)
-  ✔ progresso de conquistas é salvo por usuário (78.210327ms)
-  ✔ respostas de erro seguem o formato padronizado (11.595126ms)
-  ✔ JSON malformado retorna 400 e rota inexistente retorna 404 (11.600122ms)
-  ✔ eventos de login e de criação de entidade são registrados no log (0.683315ms)
-✔ API - fluxos principais (514.961149ms)
+  ✔ GET /api/chefes lista com paginação e filtro (público)
+  ✔ GET /api/chefes?busca encontra pelo nome sem diferenciar maiúsculas
+  ✔ CRUD completo de chefe pelo administrador
+  ✔ fluxo de tática: jogador envia, admin aprova, guia público exibe
+  ✔ progresso de conquistas é salvo por usuário
+  ✔ respostas de erro seguem o formato padronizado
+  ✔ JSON malformado retorna 400 e rota inexistente retorna 404
+  ✔ eventos de login e de criação de entidade são registrados no log
+✔ API - fluxos principais
 ▶ Segurança
-  ✔ [SQLi] login com payload de injeção é rejeitado e não autentica (17.899658ms)
-  ✔ [SQLi] busca com payload é tratada como texto e o banco permanece íntegro (12.609829ms)
-  ✔ [SQLi] parâmetro de rota "1 OR 1=1" é recusado pela validação (8.32589ms)
-  ✔ [XSS] conteúdo com <script> é devolvido apenas como JSON, com CSP e nosniff (31.94119ms)
-  ✔ [CSRF] requisição sem token ou com token errado é bloqueada (403) (20.896999ms)
-  ✔ [Acesso sem login] rotas protegidas retornam 401 (37.912708ms)
-  ✔ [Perfil insuficiente] jogador não acessa rotas de administrador (403) (33.715416ms)
-  ✔ [Sessão inválida] cookie reutilizado após logout não dá acesso (401) (47.41567ms)
-  ✔ [Mass assignment] cadastro com "perfil": "admin" cria apenas jogador (17.089049ms)
-  ✔ [Senhas] banco armazena apenas hash bcrypt, nunca a senha (4.58528ms)
-  ✔ [Respostas] nenhuma resposta da API expõe senha_hash (25.585884ms)
-✔ Segurança (493.174094ms)
+  ✔ [SQLi] login com payload de injeção é rejeitado e não autentica
+  ✔ [SQLi] busca com payload é tratada como texto e o banco permanece íntegro
+  ✔ [SQLi] parâmetro de rota "1 OR 1=1" é recusado pela validação
+  ✔ [XSS] conteúdo com <script> é devolvido apenas como JSON, com CSP e nosniff
+  ✔ [CSRF] requisição sem token ou com token errado é bloqueada (403)
+  ✔ [Acesso sem login] rotas protegidas retornam 401
+  ✔ [Perfil insuficiente] jogador não acessa rotas de administrador (403)
+  ✔ [Sessão inválida] cookie reutilizado após logout não dá acesso (401)
+  ✔ [Mass assignment] cadastro com "perfil": "admin" cria apenas jogador
+  ✔ [Senhas] banco armazena apenas hash bcrypt, nunca a senha
+  ✔ [Respostas] nenhuma resposta da API expõe senha_hash
+✔ Segurança
 ▶ Segurança - rate limiting do login
-  ✔ bloqueia com 429 após 3 tentativas erradas (59.806198ms)
-✔ Segurança - rate limiting do login (155.740619ms)
+  ✔ bloqueia com 429 após 3 tentativas erradas
+✔ Segurança - rate limiting do login
 ▶ Tratamento de erros - detalhes técnicos só em desenvolvimento
-  ✔ em produção o erro interno não expõe stack trace (11.463629ms)
-  ✔ em desenvolvimento o erro inclui o bloco "tecnico" (14.314657ms)
-✔ Tratamento de erros - detalhes técnicos só em desenvolvimento (26.167757ms)
+  ✔ em produção o erro interno não expõe stack trace
+  ✔ em desenvolvimento o erro inclui o bloco "tecnico"
+✔ Tratamento de erros - detalhes técnicos só em desenvolvimento
 ▶ AuthService
-  ✔ registra usuário com perfil jogador e guarda apenas o hash da senha (3.491644ms)
-  ✔ recusa e-mail já cadastrado com 409 (1.348269ms)
-  ✔ autentica com credenciais corretas e registra login_sucesso (0.701951ms)
-  ✔ recusa senha incorreta com 401 genérico e registra login_falha (0.650469ms)
-  ✔ e-mail inexistente recebe a mesma resposta e ainda executa a comparação de hash (0.87213ms)
-  ✔ rejeita login com tipos inválidos antes de consultar o banco (0.404017ms)
-✔ AuthService (9.416748ms)
+  ✔ registra usuário com perfil jogador e guarda apenas o hash da senha
+  ✔ recusa e-mail já cadastrado com 409
+  ✔ autentica com credenciais corretas e registra login_sucesso
+  ✔ recusa senha incorreta com 401 genérico e registra login_falha
+  ✔ e-mail inexistente recebe a mesma resposta e ainda executa a comparação de hash
+  ✔ rejeita login com tipos inválidos antes de consultar o banco
+✔ AuthService
 ▶ ChefeService
-  ✔ cria chefe válido, registra o autor e loga a criação (4.099917ms)
-  ✔ recusa ilha inexistente com 422 (1.085191ms)
-  ✔ recusa nome duplicado com 409 (0.443209ms)
-  ✔ recusa estratégia curta e dificuldade fora de 1-5 (0.35281ms)
-  ✔ retorna 404 para chefe inexistente (0.471539ms)
-  ✔ calcula a paginação e repassa filtros ao repositório (0.599755ms)
-  ✔ escapa curingas do LIKE na busca (0.276911ms)
-✔ ChefeService (9.137571ms)
+  ✔ cria chefe válido, registra o autor e loga a criação
+  ✔ recusa ilha inexistente com 422
+  ✔ recusa nome duplicado com 409
+  ✔ recusa estratégia curta e dificuldade fora de 1-5
+  ✔ retorna 404 para chefe inexistente
+  ✔ calcula a paginação e repassa filtros ao repositório
+  ✔ escapa curingas do LIKE na busca
+✔ ChefeService
 ▶ Matriz de permissões (RBAC)
-  ✔ visitante só tem permissões de leitura pública (2.464415ms)
-  ✔ jogador pode sugerir táticas e marcar conquistas, mas não gerenciar chefes (0.393557ms)
-  ✔ administrador tem todas as permissões (1.870618ms)
-  ✔ nega ações desconhecidas e perfis inexistentes (0.236201ms)
-  ✔ trata ausência de usuário como visitante (0.187773ms)
-✔ Matriz de permissões (RBAC) (6.78829ms)
+  ✔ visitante só tem permissões de leitura pública
+  ✔ jogador pode sugerir táticas e marcar conquistas, mas não gerenciar chefes
+  ✔ administrador tem todas as permissões
+  ✔ nega ações desconhecidas e perfis inexistentes
+  ✔ trata ausência de usuário como visitante
+✔ Matriz de permissões (RBAC)
 ▶ TaticaService
-  ✔ cria tática como pendente vinculada ao usuário (2.68397ms)
-  ✔ recusa tática para chefe inexistente (1.282169ms)
-  ✔ autor edita a própria tática pendente (0.880764ms)
-  ✔ impede que outro jogador edite ou exclua a tática (403) (0.83156ms)
-  ✔ impede que o autor altere tática já moderada (409) (0.381519ms)
-  ✔ administrador exclui qualquer tática, mesmo aprovada (2.987142ms)
-  ✔ moderação aceita apenas "aprovada" ou "rejeitada" (0.849919ms)
-✔ TaticaService (12.04258ms)
+  ✔ cria tática como pendente vinculada ao usuário
+  ✔ recusa tática para chefe inexistente
+  ✔ autor edita a própria tática pendente
+  ✔ impede que outro jogador edite ou exclua a tática (403)
+  ✔ impede que o autor altere tática já moderada (409)
+  ✔ administrador exclui qualquer tática, mesmo aprovada
+  ✔ moderação aceita apenas "aprovada" ou "rejeitada"
+✔ TaticaService
 ▶ Validação e sanitização de entradas
-  ✔ sanitiza texto: remove caracteres de controle e espaços repetidos (1.401205ms)
-  ✔ preserva quebras de linha em campos multilinha (0.368559ms)
-  ✔ aceita um cadastro válido e normaliza o e-mail (1.980675ms)
-  ✔ descarta campos fora do esquema (mass assignment) (0.315215ms)
-  ✔ rejeita tipos e tamanhos inválidos com erros por campo (0.441365ms)
-  ✔ exige senha com letras e números (0.384763ms)
-  ✔ converte inteiros vindos como texto e valida o intervalo (0.491373ms)
-  ✔ rejeita id de rota que não é inteiro positivo (ex.: tentativa de injeção) (0.441689ms)
-  ✔ aplica padrões e limites de paginação (0.491229ms)
-✔ Validação e sanitização de entradas (8.122026ms)
-ℹ tests 56
-ℹ suites 9
-ℹ pass 56
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 2681.574747
+  ✔ sanitiza texto: remove caracteres de controle e espaços repetidos
+  ✔ preserva quebras de linha em campos multilinha
+  ✔ aceita um cadastro válido e normaliza o e-mail
+  ✔ descarta campos fora do esquema (mass assignment)
+  ✔ rejeita tipos e tamanhos inválidos com erros por campo
+  ✔ exige senha com letras e números
+  ✔ converte inteiros vindos como texto e valida o intervalo
+  ✔ rejeita id de rota que não é inteiro positivo (ex.: tentativa de injeção)
+  ✔ aplica padrões e limites de paginação
+✔ Validação e sanitização de entradas
+i tests 56
+i pass 56
+i fail 0
