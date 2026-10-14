@@ -73,8 +73,8 @@ automatizados e registro de logs. O backend foi escrito em JavaScript (Node.js c
 Express), seguindo a sugestão de \textit{JavaScript everywhere}, e o banco de
 dados escolhido foi o PostgreSQL.
 
-O código-fonte, o script SQL e este relatório estão no repositório
-\url{https://github.com/akavirto123/scom-projeto-cuphead} (tag \cod{v2.0}). As
+O Trabalho II foi publicado em um repositório próprio, que mantém todo o histórico do Trabalho I (tag \cod{v1.0}). O código-fonte, o script SQL e este relatório estão em
+\url{https://github.com/akavirto123/scom-projeto-cuphead-t2} (tag \cod{v2.0}). As
 instruções de execução local estão no \cod{README.md}.
 
 % =====================================================================
@@ -96,25 +96,34 @@ Formulário de tática & Sem efeito & Grava a tática; o administrador aprova ou
 Conquistas & Lista estática & Progresso salvo por usuário, com percentual \\ \hline
 Usuários & Inexistentes & Cadastro, login, logout e três perfis \\ \hline
 Páginas & \cod{index.html} & \cod{index.html}, \cod{conta.html}, \cod{admin.html} \\ \hline
-Qualidade & Lighthouse e W3C & 56 testes automatizados, testes de segurança, logs e benchmark \\ \hline
+Qualidade & Lighthouse e W3C & Lighthouse mantido, 56 testes automatizados, testes de segurança, logs e benchmark \\ \hline
 \end{tabular}
 \caption{Comparação entre as duas versões}
 \end{table}
 
-A identidade visual também evoluiu. As fontes passaram a ser embutidas no
-próprio projeto, sem depender do Google Fonts, e foram escolhidas para reforçar a
-estética dos anos 1930: \textit{Fascinate} no logotipo, \textit{Rye} nos títulos e
-botões (estilo cartaz de circo e cassino), \textit{Libre Baskerville} no texto
-corrido e \textit{Special Elite} (máquina de escrever) em rótulos e legendas.
-Foram acrescentados um letreiro de lâmpadas no cabeçalho, textura de papel
-envelhecido, moldura de película no destaque e na galeria e cartões em formato
-de ingresso. Todas as animações são desligadas quando o sistema operacional pede
-movimento reduzido.
+A identidade visual também foi refeita, inspirada nos teatros de variedades e
+nos cassinos dos desenhos animados dos anos 1930. A página abre como um
+\textbf{palco}: as cortinas de veludo se abrem e revelam uma cartela de título
+com raios de sol e letras em relevo 3D. Os chefes viraram \textbf{cartas de
+baralho} do cassino do King Dice: o número no canto é a dificuldade e o naipe
+indica a ilha ($\clubsuit$ Ilha 1, $\diamondsuit$ Ilha 2,
+$\heartsuit$ Ilha 3, $\spadesuit$ Inkwell Hell). As cartas inclinam em
+3D seguindo o mouse, com um reflexo de luz. As conquistas lembram o contrato do
+Diabo, e cada caixa de marcação é uma moeda que gira ao ser marcada. Os botões
+têm relevo e afundam ao clicar.
+
+As fontes passaram a ser embutidas no projeto, sem depender do Google Fonts:
+\textit{Fascinate} no logotipo, \textit{Rye} nos títulos, \textit{Libre
+Baskerville} no texto e \textit{Special Elite} em rótulos. Todos os efeitos são
+feitos só com CSS e um pequeno módulo JavaScript, sem bibliotecas. Eles só
+funcionam com mouse e são desligados quando o sistema pede movimento reduzido,
+mantendo a acessibilidade exigida desde o Trabalho I.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\linewidth]{../evidencias/capturas/13_desktop_chefes.png}
-\caption{Página inicial do Trabalho II: chefes carregados da API e conquistas}
+\includegraphics[width=0.49\linewidth]{../evidencias/capturas/00_palco_abertura.png}\hfill
+\includegraphics[width=0.49\linewidth]{../evidencias/capturas/13_desktop_chefes.png}
+\caption{Palco de abertura (esquerda) e chefes como cartas de baralho (direita)}
 \end{figure}
 
 % =====================================================================
@@ -447,7 +456,19 @@ autocannon com 10 conexões simultâneas durante 5 segundos por endpoint.
 \caption{Resultados do benchmark (nenhum erro)}
 \end{table}
 
-Todas as leituras ficaram abaixo de 50\,ms no pior caso. O login é mais lento
+Todas as leituras ficaram abaixo de 50\,ms no pior caso. A interface também
+foi auditada novamente com o Google Lighthouse, como no Trabalho I: no perfil
+mobile, a página inicial obteve 96 em Performance (o Trabalho I tinha 90), 100
+em Acessibilidade, 96 em Boas Práticas e 100 em SEO; no perfil desktop, 99, 100,
+96 e 100. Para isso, as fontes principais são pré-carregadas, o que reduziu a
+mudança de layout (CLS) de 0,27 para 0,04.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../evidencias/capturas/lighthouse_mobile.png}
+\caption{Google Lighthouse da página inicial (perfil mobile)}
+\end{figure}
+ O login é mais lento
 de propósito: o bcrypt leva cerca de 0,5\,s por verificação, o que torna inviável
 testar milhões de senhas caso o banco vaze.
 
