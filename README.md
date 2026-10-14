@@ -121,6 +121,6 @@ Detalhes em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 ## Uso de IA generativa
 
 Este trabalho foi desenvolvido com apoio de IA generativa (Claude, da
-Anthropic). Os commits produzidos com essa ajuda trazem o rodapé
-`Co-Authored-By: Claude`, e o relatório (seção 13) descreve o que foi gerado,
-o que foi revisado e as limitações encontradas.
+Anthropic). A seção 13 do relatório descreve a ferramenta, quais partes do
+projeto foram produzidas com ela, os problemas encontrados na revisão e as
+limitações do uso.
