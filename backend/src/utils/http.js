@@ -24,3 +24,8 @@ export function metadadosPaginacao({ pagina, limite }, total) {
     totalPaginas: Math.max(1, Math.ceil(total / limite)),
   };
 }
+
+/** Caminho completo da requisição, sem a query string (para logs). */
+export function rotaDe(req) {
+  return req.originalUrl.split('?')[0];
+}

@@ -11,6 +11,7 @@
  * mensagem legível e o id da requisição, que permite achar o erro no log.
  */
 import { AppError } from '../utils/AppError.js';
+import { rotaDe } from '../utils/http.js';
 
 /** Converte erros conhecidos (body-parser, PostgreSQL) em AppError. */
 function normalizar(erro) {
@@ -53,7 +54,7 @@ export function criarTratadorDeErros({ logger, emDesenvolvimento }) {
       logger.erro('erro.interno', {
         requisicaoId: req.id,
         metodo: req.method,
-        rota: req.path,
+        rota: rotaDe(req),
         usuarioId: req.usuario?.id ?? null,
         mensagem: erro.message,
         stack: erro.stack,

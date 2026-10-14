@@ -3,6 +3,7 @@
  * e registra método, rota, status e duração no log em nível debug.
  */
 import { randomUUID } from 'node:crypto';
+import { rotaDe } from '../utils/http.js';
 
 export function criarRastreioDeRequisicao({ logger }) {
   return (req, res, next) => {
@@ -15,7 +16,7 @@ export function criarRastreioDeRequisicao({ logger }) {
       logger.debug('http.requisicao', {
         requisicaoId: req.id,
         metodo: req.method,
-        rota: req.path,
+        rota: rotaDe(req),
         status: res.statusCode,
         duracaoMs: Number(duracaoMs.toFixed(2)),
         usuarioId: req.usuario?.id ?? null,
