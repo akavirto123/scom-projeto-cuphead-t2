@@ -48,8 +48,8 @@ recriado a cada execução).
 ### 3. Configurar o backend
 
 ```bash
-git clone https://github.com/akavirto123/scom-projeto-cuphead.git
-cd scom-projeto-cuphead/backend
+git clone https://github.com/akavirto123/scom-projeto-cuphead-t2.git
+cd scom-projeto-cuphead-t2/backend
 npm install
 cp .env.example .env        # no Windows (cmd): copy .env.example .env
 ```

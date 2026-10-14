@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuphead Boss Guide</title>
     <meta name="description" content="Guia definitivo de Cuphead: estratégias para todos os chefes, platinas, conquistas e a história completa da Ilha Tinteiro.">
+    <link rel="preload" href="fonts/fascinate-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/rye-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/libre-baskerville-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body id="inicio">
     <header>
         <div class="header-container">
-            <h1>Cuphead Boss Guide</h1>
+            <p class="logo"><a href="#inicio">Cuphead Boss Guide</a></p>
             <nav aria-label="Navegação principal">
                 <ul>
                     <li><a href="#inicio" aria-current="page">Início</a></li>
@@ -25,17 +29,26 @@
         </div>
     </header>
 
+    <section class="palco" aria-labelledby="titulo-palco">
+        <div class="palco-raios" aria-hidden="true"></div>
+        <div class="cartela">
+            <h1 id="titulo-palco">Cuphead Boss Guide</h1>
+            <p class="cartela-texto">Os padrões de ataque de todos os chefes da Ilha Tinteiro, explicados um a um.</p>
+            <a class="btn-primario" href="#estrategias">Ver os chefes</a>
+        </div>
+        <div class="palco-chao" aria-hidden="true"></div>
+        <div class="cortina cortina-esquerda" aria-hidden="true"></div>
+        <div class="cortina cortina-direita" aria-hidden="true"></div>
+        <div class="bambinela" aria-hidden="true"></div>
+    </section>
+
     <main class="container">
-        <section class="section-destaque">
-            <h2 class="sr-only">Destaque Principal</h2>
+        <section id="historia" class="section-historia">
+            <h2>A Obra de Arte por Trás do Jogo</h2>
             <figure class="hero-image">
                 <img src="https://sm.ign.com/t/ign_br/screenshot/default/cuph_631q.1280.jpg" alt="Personagens Cuphead e Mugman enfrentando inimigos no estilo anos 30" width="1280" height="720" loading="eager">
                 <figcaption>A arte da Ilha Tinteiro!</figcaption>
             </figure>
-        </section>
-
-        <section id="historia" class="section-historia">
-            <h2>A Obra de Arte por Trás do Jogo</h2>
             <p>Cuphead não é apenas sobre dificuldade, é uma verdadeira obra de arte à era de ouro da animação dos anos 1930. Desenvolvido pelo Studio MDHR, uma equipe independente minúscula liderada pelos irmãos Moldenhauer, o jogo quebrou barreiras na indústria pela sua paixão ao detalhe.</p>
             <p>Tudo o que você vê na tela foi feito à mão! Cada quadro de animação dos personagens, inimigos e chefões foi desenhado no papel com lápis e tinta, e os cenários de fundo foram todos pintados em aquarela, sem nenhum atalho digital. Foram anos de dedicação exaustiva para garantir que a jogabilidade fluida e os requisitos específicos de cada conquista estivessem perfeitamente alinhados com uma trilha sonora original avassaladora de jazz e big band.</p>
         </section>
