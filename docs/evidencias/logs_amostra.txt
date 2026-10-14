@@ -1,0 +1,25 @@
+{"timestamp":"2026-10-14T17:23:36.349Z","nivel":"info","evento":"servidor.iniciado","porta":3000,"ambiente":"development"}
+{"timestamp":"2026-10-14T17:24:14.183Z","nivel":"info","evento":"entidade.criada","entidade":"usuario","id":2,"perfil":"jogador"}
+{"timestamp":"2026-10-14T17:24:14.560Z","nivel":"info","evento":"entidade.criada","entidade":"usuario","id":3,"perfil":"jogador"}
+{"timestamp":"2026-10-14T17:24:15.001Z","nivel":"info","evento":"auth.login_sucesso","usuarioId":2,"perfil":"jogador","ip":"127.0.0.1"}
+{"timestamp":"2026-10-14T17:24:15.045Z","nivel":"info","evento":"entidade.criada","entidade":"tatica","id":1,"chefeId":1,"por":2}
+{"timestamp":"2026-10-14T17:24:15.065Z","nivel":"info","evento":"entidade.criada","entidade":"tatica","id":2,"chefeId":2,"por":2}
+{"timestamp":"2026-10-14T17:24:15.637Z","nivel":"info","evento":"auth.login_sucesso","usuarioId":3,"perfil":"jogador","ip":"127.0.0.1"}
+{"timestamp":"2026-10-14T17:24:17.044Z","nivel":"aviso","evento":"seguranca.csrf_invalido","requisicaoId":"1f5905b1-8a5a-41e1-8cef-641f524427b2","metodo":"POST","rota":"/api/taticas","ip":"127.0.0.1","motivo":"cabecalho_ausente"}
+{"timestamp":"2026-10-14T17:24:17.099Z","nivel":"aviso","evento":"acesso.negado","requisicaoId":"bc9766e1-86f0-46a8-a048-2263720641fe","metodo":"GET","rota":"/api/taticas/minhas","acao":"tatica:listar_proprias","usuarioId":null,"perfil":"visitante","ip":"127.0.0.1"}
+{"timestamp":"2026-10-14T17:24:17.157Z","nivel":"aviso","evento":"acesso.negado","requisicaoId":"2b8c771a-a27b-43eb-8551-f50ea87ee228","metodo":"DELETE","rota":"/api/chefes/1","acao":"chefe:excluir","usuarioId":2,"perfil":"jogador","ip":"127.0.0.1"}
+{"timestamp":"2026-10-14T17:24:17.265Z","nivel":"info","evento":"auth.logout","usuarioId":1}
+{"timestamp":"2026-10-14T17:24:17.781Z","nivel":"aviso","evento":"auth.login_falha","email":"admin@cuphead.local","ip":"127.0.0.1","motivo":"senha_incorreta"}
+{"timestamp":"2026-10-14T17:24:18.124Z","nivel":"aviso","evento":"auth.login_falha","email":"admin@cuphead.local","ip":"127.0.0.1","motivo":"senha_incorreta"}
+{"timestamp":"2026-10-14T17:24:18.923Z","nivel":"aviso","evento":"seguranca.rate_limit","tipo":"login","ip":"127.0.0.1","rota":"/api/auth/login","requisicaoId":"0ec3a0a8-1267-4039-8fc1-41e3bbd42ac1"}
+{"timestamp":"2026-10-14T17:24:18.939Z","nivel":"aviso","evento":"seguranca.rate_limit","tipo":"login","ip":"127.0.0.1","rota":"/api/auth/login","requisicaoId":"e25b89bf-23bc-4145-9c03-2312984626d5"}
+{"timestamp":"2026-10-14T17:24:28.747Z","nivel":"info","evento":"servidor.encerrando","sinal":"SIGTERM"}
+{"timestamp":"2026-10-14T17:24:29.519Z","nivel":"info","evento":"servidor.iniciado","porta":3000,"ambiente":"development"}
+{"timestamp":"2026-10-14T17:24:32.592Z","nivel":"aviso","evento":"auth.login_falha","email":"admin@cuphead.local'--","ip":"127.0.0.1","motivo":"usuario_inexistente"}
+{"timestamp":"2026-10-14T17:24:32.793Z","nivel":"aviso","evento":"seguranca.csrf_invalido","requisicaoId":"697da569-cca0-4284-8372-e91e84d0079e","metodo":"POST","rota":"/api/taticas","ip":"127.0.0.1","motivo":"cabecalho_ausente"}
+{"timestamp":"2026-10-14T17:24:33.016Z","nivel":"info","evento":"auth.logout","usuarioId":1}
+{"timestamp":"2026-10-14T17:24:40.057Z","nivel":"info","evento":"servidor.encerrando","sinal":"SIGTERM"}
+{"timestamp":"2026-10-14T17:24:43.917Z","nivel":"aviso","evento":"auth.login_falha","email":"admin@cuphead.local'--","ip":"127.0.0.1","motivo":"usuario_inexistente"}
+{"timestamp":"2026-10-14T17:25:13.042Z","nivel":"info","evento":"entidade.atualizada","entidade":"tatica","id":1,"status":"aprovada","por":1}
+{"timestamp":"2026-10-14T17:25:13.062Z","nivel":"info","evento":"entidade.atualizada","entidade":"tatica","id":2,"status":"aprovada","por":1}
+{"timestamp":"2026-10-14T17:27:56.882Z","nivel":"erro","evento":"erro.interno","requisicaoId":"b9c70b6a-5ccb-4876-bfc8-3ecd5bfe2027","metodo":"GET","rota":"/api/saude","usuarioId":null,"mensagem":"connect ECONNREFUSED 127.0.0.1:5432","stack":"Error: connect ECONNREFUSED 127.0.0.1:5432 (...)"}
