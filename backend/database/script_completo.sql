@@ -1,0 +1,257 @@
+-- =====================================================================
+-- Cuphead Boss Guide - script completo de criação do banco (PostgreSQL)
+-- Gerado automaticamente por "npm run db:script" a partir de
+-- database/migrations/. Não edite este arquivo à mão.
+--
+-- Uso (em um banco vazio):
+--   psql -U cuphead_app -d cuphead_guide -f database/script_completo.sql
+-- =====================================================================
+
+BEGIN;
+
+-- >>> 001_criar_tabelas.sql
+-- =====================================================================
+-- Migração 001 - Criação das tabelas do Cuphead Boss Guide
+-- SGBD: PostgreSQL 12+ (testado na versão 16)
+-- =====================================================================
+
+-- ---------------------------------------------------------------------
+-- Usuários e perfis de acesso
+-- ---------------------------------------------------------------------
+CREATE TABLE usuarios (
+    id          INTEGER GENERATED ALWAYS AS IDENTITY,
+    nome        VARCHAR(60)  NOT NULL,
+    email       VARCHAR(254) NOT NULL,
+    senha_hash  VARCHAR(72)  NOT NULL,           -- hash bcrypt (60 caracteres)
+    perfil      VARCHAR(10)  NOT NULL DEFAULT 'jogador',
+    criado_em   TIMESTAMPTZ  NOT NULL DEFAULT now(),
+
+    CONSTRAINT pk_usuarios PRIMARY KEY (id),
+    CONSTRAINT uq_usuarios_email UNIQUE (email),
+    CONSTRAINT ck_usuarios_perfil CHECK (perfil IN ('jogador', 'admin')),
+    CONSTRAINT ck_usuarios_email_minusculo CHECK (email = lower(email)),
+    CONSTRAINT ck_usuarios_nome_tamanho CHECK (char_length(nome) BETWEEN 2 AND 60)
+);
+
+-- ---------------------------------------------------------------------
+-- Ilhas (mundos) do jogo
+-- ---------------------------------------------------------------------
+CREATE TABLE ilhas (
+    id     SMALLINT GENERATED ALWAYS AS IDENTITY,
+    nome   VARCHAR(40) NOT NULL,
+    ordem  SMALLINT    NOT NULL,
+
+    CONSTRAINT pk_ilhas PRIMARY KEY (id),
+    CONSTRAINT uq_ilhas_nome UNIQUE (nome),
+    CONSTRAINT uq_ilhas_ordem UNIQUE (ordem),
+    CONSTRAINT ck_ilhas_ordem_positiva CHECK (ordem > 0)
+);
+
+-- ---------------------------------------------------------------------
+-- Chefes (entidade principal)
+-- ---------------------------------------------------------------------
+CREATE TABLE chefes (
+    id             INTEGER GENERATED ALWAYS AS IDENTITY,
+    nome           VARCHAR(60)  NOT NULL,
+    fase           VARCHAR(80)  NOT NULL,          -- nome da fase/nível no jogo
+    ilha_id        SMALLINT     NOT NULL,
+    estrategia     VARCHAR(1000) NOT NULL,
+    dificuldade    SMALLINT     NOT NULL,
+    criado_por     INTEGER,
+    criado_em      TIMESTAMPTZ  NOT NULL DEFAULT now(),
+    atualizado_em  TIMESTAMPTZ  NOT NULL DEFAULT now(),
+
+    CONSTRAINT pk_chefes PRIMARY KEY (id),
+    CONSTRAINT uq_chefes_nome UNIQUE (nome),
+    CONSTRAINT fk_chefes_ilha FOREIGN KEY (ilha_id)
+        REFERENCES ilhas (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT fk_chefes_criado_por FOREIGN KEY (criado_por)
+        REFERENCES usuarios (id) ON DELETE SET NULL,
+    CONSTRAINT ck_chefes_dificuldade CHECK (dificuldade BETWEEN 1 AND 5),
+    CONSTRAINT ck_chefes_estrategia_tamanho CHECK (char_length(estrategia) BETWEEN 20 AND 1000)
+);
+
+-- Listagem filtrada por ilha (consulta mais frequente do site)
+CREATE INDEX idx_chefes_ilha_id ON chefes (ilha_id);
+-- Busca por nome sem diferenciar maiúsculas/minúsculas
+CREATE INDEX idx_chefes_nome_lower ON chefes (lower(nome));
+
+-- ---------------------------------------------------------------------
+-- Táticas sugeridas pela comunidade (moderadas pelo administrador)
+-- ---------------------------------------------------------------------
+CREATE TABLE taticas (
+    id             INTEGER GENERATED ALWAYS AS IDENTITY,
+    chefe_id       INTEGER      NOT NULL,
+    usuario_id     INTEGER      NOT NULL,
+    conteudo       VARCHAR(1000) NOT NULL,
+    status         VARCHAR(10)  NOT NULL DEFAULT 'pendente',
+    moderado_por   INTEGER,
+    criado_em      TIMESTAMPTZ  NOT NULL DEFAULT now(),
+    atualizado_em  TIMESTAMPTZ  NOT NULL DEFAULT now(),
+
+    CONSTRAINT pk_taticas PRIMARY KEY (id),
+    CONSTRAINT fk_taticas_chefe FOREIGN KEY (chefe_id)
+        REFERENCES chefes (id) ON DELETE CASCADE,
+    CONSTRAINT fk_taticas_usuario FOREIGN KEY (usuario_id)
+        REFERENCES usuarios (id) ON DELETE CASCADE,
+    CONSTRAINT fk_taticas_moderado_por FOREIGN KEY (moderado_por)
+        REFERENCES usuarios (id) ON DELETE SET NULL,
+    CONSTRAINT ck_taticas_status CHECK (status IN ('pendente', 'aprovada', 'rejeitada')),
+    CONSTRAINT ck_taticas_conteudo_tamanho CHECK (char_length(conteudo) BETWEEN 10 AND 1000)
+);
+
+-- Táticas aprovadas de um chefe (página pública)
+CREATE INDEX idx_taticas_chefe_status ON taticas (chefe_id, status);
+-- "Minhas táticas"
+CREATE INDEX idx_taticas_usuario ON taticas (usuario_id);
+-- Fila de moderação ordenada por data
+CREATE INDEX idx_taticas_status_criado_em ON taticas (status, criado_em);
+
+-- ---------------------------------------------------------------------
+-- Conquistas do jogo e progresso de cada usuário
+-- ---------------------------------------------------------------------
+CREATE TABLE conquistas (
+    id         SMALLINT GENERATED ALWAYS AS IDENTITY,
+    nome       VARCHAR(60)  NOT NULL,
+    descricao  VARCHAR(200) NOT NULL,
+    ordem      SMALLINT     NOT NULL,
+
+    CONSTRAINT pk_conquistas PRIMARY KEY (id),
+    CONSTRAINT uq_conquistas_nome UNIQUE (nome),
+    CONSTRAINT uq_conquistas_ordem UNIQUE (ordem)
+);
+
+CREATE TABLE usuario_conquistas (
+    usuario_id    INTEGER     NOT NULL,
+    conquista_id  SMALLINT    NOT NULL,
+    concluida_em  TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    CONSTRAINT pk_usuario_conquistas PRIMARY KEY (usuario_id, conquista_id),
+    CONSTRAINT fk_usuario_conquistas_usuario FOREIGN KEY (usuario_id)
+        REFERENCES usuarios (id) ON DELETE CASCADE,
+    CONSTRAINT fk_usuario_conquistas_conquista FOREIGN KEY (conquista_id)
+        REFERENCES conquistas (id) ON DELETE CASCADE
+);
+
+-- ---------------------------------------------------------------------
+-- Sessões de login (usada pelo connect-pg-simple)
+-- ---------------------------------------------------------------------
+CREATE TABLE sessoes (
+    sid     VARCHAR      NOT NULL,
+    sess    JSON         NOT NULL,
+    expire  TIMESTAMP(6) NOT NULL,
+
+    CONSTRAINT pk_sessoes PRIMARY KEY (sid)
+);
+
+-- Limpeza periódica de sessões expiradas
+CREATE INDEX idx_sessoes_expire ON sessoes (expire);
+
+-- ---------------------------------------------------------------------
+-- Atualiza "atualizado_em" automaticamente em todo UPDATE
+-- ---------------------------------------------------------------------
+CREATE FUNCTION definir_atualizado_em() RETURNS trigger AS $$
+BEGIN
+    NEW.atualizado_em := now();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_chefes_atualizado_em
+    BEFORE UPDATE ON chefes
+    FOR EACH ROW EXECUTE FUNCTION definir_atualizado_em();
+
+CREATE TRIGGER trg_taticas_atualizado_em
+    BEFORE UPDATE ON taticas
+    FOR EACH ROW EXECUTE FUNCTION definir_atualizado_em();
+
+-- >>> 002_dados_iniciais.sql
+-- =====================================================================
+-- Migração 002 - Dados iniciais (conteúdo do Trabalho Individual I)
+-- Ilhas, chefes e conquistas que antes estavam fixos no HTML.
+-- Nenhum usuário é criado aqui: o administrador é criado pelo comando
+-- "npm run criar-admin", com credenciais lidas do arquivo .env.
+-- =====================================================================
+
+INSERT INTO ilhas (nome, ordem) VALUES
+    ('Ilha 1', 1),
+    ('Ilha 2', 2),
+    ('Ilha 3', 3),
+    ('Inkwell Hell', 4);
+
+INSERT INTO chefes (nome, fase, ilha_id, estrategia, dificuldade)
+SELECT v.nome, v.fase, i.id, v.estrategia, v.dificuldade
+FROM (VALUES
+    (1, 'The Root Pack', 'Botanic Panic', 'Ilha 1',
+     'O FSM transita de forma linear: Batata (projéteis horizontais), Cebola (gotas verticais baseadas na sua posição) e Cenoura (raios teleguiados). Fique sempre no fundo da tela.', 1),
+    (2, 'Goopy Le Grande', 'Ruse of an Ooze', 'Ilha 1',
+     'IA baseada em saltos que calculam a distância do jogador. Use o Smoke Dash pouco antes dele pousar. Na fase do túmulo, corra sem parar de um lado ao outro.', 1),
+    (3, 'Hilda Berg', 'Threatenin'' Zeppelin', 'Ilha 1',
+     'Batalha aérea. As transformações do zodíaco mudam a IA. Touro (avanço horizontal rápido), Gêmeos (bola de fogo circular), Arqueiro (estrelas teleguiadas).', 2),
+    (4, 'Cagney Carnation', 'Floral Fury', 'Ilha 1',
+     'Fique apenas nas plataformas voadoras. O ataque de alongamento é telegrafado; caia para o chão assim que ele retrair o rosto.', 3),
+    (5, 'Ribby and Croaks', 'Clip Joint Calamity', 'Ilha 1',
+     'Na última fase (Caça-níqueis), o ataque depende das moedas roladas. Dê parry na manivela rosa o mais rápido possível para iniciar a fase de dano.', 2),
+    (6, 'Baroness Von Bon Bon', 'Sugarland Shimmy', 'Ilha 2',
+     'Você enfrentará 3 de 5 lacaios aleatórios. Arma Chaser é excelente para focar nos capangas enquanto desvia da Baronesa correndo com o castelo.', 3),
+    (7, 'Beppi The Clown', 'Carnival Kerfuffle', 'Ilha 2',
+     'A montanha-russa corta a tela periodicamente. Guarde o Super Art para quando ele virar o carrossel gigante na fase final.', 3),
+    (8, 'Djimmi The Great', 'Pyramid Peril', 'Ilha 2',
+     'Na fase das marionetes e pilares escaneando, minimize seu avião para ganhar agilidade extra. Use a bomba primária para causar dano por cima.', 3),
+    (9, 'Grim Matchstick', 'Fiery Frolic', 'Ilha 2',
+     'Arma Lobber brilha aqui. Evite dar parry ou atirar nas bolas de fogo da fase final, pois elas explodem e se dividem, impossibilitando a esquiva.', 4),
+    (10, 'Wally Warbles', 'Aviary Action', 'Ilha 2',
+     'Na fase do filho, mantenha-se girando em círculos ao redor dele. Quando Wally voltar de maca, jogue bombas na boca do pássaro sempre que abrir.', 4),
+    (11, 'Rumor Honeybottoms', 'Honeycomb Herald', 'Ilha 3',
+     'A tela rola verticalmente. Equipe a arma Spread para dar dano massivo de perto quando ela descer para o centro da tela fingindo ler o livro.', 4),
+    (12, 'Captain Brineybeard', 'Shootin N'' Lootin', 'Ilha 3',
+     'Sempre observe o navio ao fundo, não apenas o pirata. O barco chupa o ar e cospe raios mortais; use o agachamento para desviar do raio do laser.', 3),
+    (13, 'Sally Stageplay', 'Dramatic Fanatic', 'Ilha 3',
+     'Seus padrões são lentos e fáceis de ler (diagonais e quedas do céu). Use o Smoke Bomb para atravessar por ela sem se preocupar com a caixa de colisão.', 3),
+    (14, 'Werner Werman', 'Murine Corps', 'Ilha 3',
+     'Ataques predominantemente terrestres. Equipe o dash que dá invencibilidade. Na fase final (gato), observe os destroços caindo do teto.', 3),
+    (15, 'Dr. Kahl''s Robot', 'Junkyard Jive', 'Ilha 3',
+     'Foco na antena inferior primeiro! Assim os drones param de poluir a tela. Na fase do coração, guarde a barra cheia de especial para pular de fase.', 4),
+    (16, 'Cala Maria', 'High Seas Hi-Jinx', 'Ilha 3',
+     'Padrão de petrificação. Mantenha os dedos rápidos para balançar o direcional e quebrar o gelo. Voe rente às bordas da tela para desviar das cobras.', 4),
+    (17, 'Phantom Express', 'Railroad Wrath', 'Ilha 3',
+     'Batalha sobre o carrinho. Evite usar armas que atiram automaticamente (como a Chaser), pois elas vão acertar as válvulas rosas e mover seu carrinho sem querer.', 4),
+    (18, 'King Dice', 'All Bets Are Off!', 'Inkwell Hell',
+     'A IA exige Parry preciso no dado. Aprenda a mirar nos números 2 (Fichas), 5 (Coelho) e 8 (Bola 8) para enfrentar os mini-chefes mais fáceis. Atrás das mãos no centro há um ponto seguro.', 5),
+    (19, 'The Devil', 'One Hell of a Time', 'Inkwell Hell',
+     'Fase 1: Leia os olhos dele (cabra, aranha, dragão). Fase 2 em diante: Use a arma Spread e desça para a plataforma inferior. Fique exatamente no meio da tela na última fase para não errar a queda.', 5)
+) AS v (ordem, nome, fase, ilha, estrategia, dificuldade)
+JOIN ilhas i ON i.nome = v.ilha
+ORDER BY v.ordem;  -- mantém a ordem original do guia
+
+INSERT INTO conquistas (nome, descricao, ordem) VALUES
+    ('Taking Names', 'Derrote um chefão.', 1),
+    ('A Walk in the Park', 'Derrote todos os chefes da Ilha 1.', 2),
+    ('A Day at the Fair', 'Derrote todos os chefes da Ilha 2.', 3),
+    ('A Trip Downtown', 'Derrote todos os chefes da Ilha 3.', 4),
+    ('Casino Night', 'Conclua o Cassino do King Dice.', 5),
+    ('Put On a Show', 'Consiga um Rank S.', 6),
+    ('Sheriff', 'Obtenha Rank A ou mais em todos os chefes da Ilha 1.', 7),
+    ('Boss', 'Obtenha Rank A ou mais em todos os chefes da Ilha 2.', 8),
+    ('Mayor', 'Obtenha Rank A ou mais em todos os chefes da Ilha 3.', 9),
+    ('Magician', 'Obtenha todas as Super Artes.', 10),
+    ('King', 'Compre todos os itens da loja do Porkrind.', 11),
+    ('Souls Saved', 'Termine o jogo no modo Normal.', 12),
+    ('Beat The Devil At His Own Game', 'Termine o jogo no modo Expert.', 13),
+    ('Butter-and-Egg Man', 'Compre tudo na loja.', 14),
+    ('Ceramic Strike', 'Derrote um chefe com o Ataque EX.', 15),
+    ('Porcelain Power', 'Derrote um chefe com um Super Art.', 16),
+    ('Magician Lord', 'Consiga todas as Super Artes.', 17),
+    ('Perfect Run', 'Complete uma fase sem tomar dano.', 18),
+    ('Coffers Full', 'Pegue todas as moedas nas fases Run ''n Gun.', 19),
+    ('Bouncing Ball', 'Dê 5 parrys seguidos antes de tocar o chão.', 20),
+    ('Parry Persuasion', 'Faça 20 parrys em um chefe.', 21),
+    ('Parry Performance', 'Faça 100 parrys no total.', 22),
+    ('Pacifist', 'Complete todos os níveis Run ''n Gun sem atirar/matar.', 23),
+    ('Rolling Sixes', 'Derrote o King Dice sem sofrer dano.', 24),
+    ('Bravo Zulu P-26', 'Derrote um chefe usando apenas balas pequenas de avião.', 25),
+    ('Cutting Corners', 'Descubra um atalho secreto no mapa do mundo.', 26),
+    ('High Roller', 'Obtenha todas as moedas no jogo.', 27),
+    ('Selling Out', 'Faça o acordo final com o Diabo (Bad Ending).', 28);
+
+COMMIT;

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuphead Boss Guide</title>
+    <meta name="description" content="Guia definitivo de Cuphead: estratégias para todos os chefes, platinas, conquistas e a história completa da Ilha Tinteiro.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="inicio">
+    <header>
+        <div class="header-container">
+            <h1>Cuphead Boss Guide</h1>
+            <nav aria-label="Navegação principal">
+                <ul>
+                    <li><a href="#inicio" aria-current="page">Início</a></li>
+                    <li><a href="#historia">História</a></li>
+                    <li><a href="#jogo">Minijogo</a></li>
+                    <li><a href="#galeria">Galeria</a></li>
+                    <li><a href="#estrategias">Chefes</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="area-usuario" id="area-usuario" aria-live="polite"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-destaque">
+            <h2 class="sr-only">Destaque Principal</h2>
+            <figure class="hero-image">
+                <img src="https://sm.ign.com/t/ign_br/screenshot/default/cuph_631q.1280.jpg" alt="Personagens Cuphead e Mugman enfrentando inimigos no estilo anos 30" width="1280" height="720" loading="eager">
+                <figcaption>A arte da Ilha Tinteiro!</figcaption>
+            </figure>
+        </section>
+
+        <section id="historia" class="section-historia">
+            <h2>A Obra de Arte por Trás do Jogo</h2>
+            <p>Cuphead não é apenas sobre dificuldade, é uma verdadeira obra de arte à era de ouro da animação dos anos 1930. Desenvolvido pelo Studio MDHR, uma equipe independente minúscula liderada pelos irmãos Moldenhauer, o jogo quebrou barreiras na indústria pela sua paixão ao detalhe.</p>
+            <p>Tudo o que você vê na tela foi feito à mão! Cada quadro de animação dos personagens, inimigos e chefões foi desenhado no papel com lápis e tinta, e os cenários de fundo foram todos pintados em aquarela, sem nenhum atalho digital. Foram anos de dedicação exaustiva para garantir que a jogabilidade fluida e os requisitos específicos de cada conquista estivessem perfeitamente alinhados com uma trilha sonora original avassaladora de jazz e big band.</p>
+        </section>
+
+        <section id="jogo" class="section-jogo">
+            <h2>Treinamento:</h2>
+            <div class="iframe-wrapper">
+                <iframe src="https://scratch.mit.edu/projects/183424116/embed" allowfullscreen title="Minijogo Cuphead em Scratch" loading="lazy"></iframe>
+            </div>
+            <div class="controles-jogo">
+                <p><strong>WASD</strong> = Movimentação | <strong>P</strong> = Atirar | <strong>1</strong> = Dash | <strong>5</strong> = Pausar</p>
+            </div>
+        </section>
+
+        <section id="galeria" class="section-carrossel">
+            <h2>Acervo Histórico de Batalhas</h2>
+            <div class="carousel">
+                <figure class="carousel-item">
+                    <img src="https://www.salvandonerd.blog.br/wp-content/uploads/2016/06/Cuphead_E3_06-1024x576.jpg" alt="Cena de gameplay mostrando batalha clássica de Cuphead" width="800" height="450" loading="lazy">
+                    <figcaption>Cenários pintados à mão.</figcaption>
+                </figure>
+                <figure class="carousel-item">
+                    <img src="https://s2-g1.glbimg.com/dxSMcr0g1FKHhDs8TK_NXIzzq6A=/0x0:1400x788/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/e/u/aXMfBITE23ALuJspYAAQ/cuphead3.jpg" alt="Caos na tela com diversos projéteis simultâneos" width="800" height="450" loading="lazy">
+                    <figcaption>Reflexos levados ao limite.</figcaption>
+                </figure>
+                <figure class="carousel-item">
+                    <img src="https://image.api.playstation.com/vulcan/ap/rnd/202206/0313/Bo1hujM1Yk5Xz1OeioLwqq3I.jpg" alt="Ilustração oficial dos personagens do jogo" width="800" height="450" loading="lazy">
+                    <figcaption>O trio imparável da Ilha Tinteiro.</figcaption>
+                </figure>
+                <figure class="carousel-item">
+                    <img src="https://i.ytimg.com/vi/6XD7_wGjbaE/maxresdefault.jpg" alt="Mugman durante uma fase de progressão" width="800" height="450" loading="lazy">
+                    <figcaption>Dominando a arte do Parry.</figcaption>
+                </figure>
+                <figure class="carousel-item">
+                    <img src="https://assets.nintendo.com/image/upload/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000016330/670082604c93146cd94e427756772337cc42c6f2fe13ecc4813e265e457694cf" alt="Cena vibrante de gameplay do jogo Cuphead no Nintendo Switch" width="800" height="450" loading="lazy">
+                    <figcaption>Ação intensa em múltiplos estágios.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <div class="layout-duplo">
+            <section id="estrategias" class="section-principal">
+                <h2>Análise de padrões</h2>
+                <form class="filtros" id="form-filtros" role="search" aria-label="Filtrar chefes">
+                    <div class="input-group">
+                        <label for="filtro-ilha">Ilha</label>
+                        <select id="filtro-ilha" name="ilha">
+                            <option value="">Todas as ilhas</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="filtro-busca">Buscar chefe ou fase</label>
+                        <input type="search" id="filtro-busca" name="busca" maxlength="60" placeholder="Ex.: Devil">
+                    </div>
+                    <button type="submit" class="btn-secundario">Filtrar</button>
+                </form>
+                <p id="status-chefes" class="mensagem" role="status"></p>
+                <div class="grid-cards" id="lista-chefes"></div>
+                <nav class="paginacao" aria-label="Paginação dos chefes">
+                    <button type="button" class="btn-secundario" id="pagina-anterior">Anterior</button>
+                    <span id="pagina-info">Página 1</span>
+                    <button type="button" class="btn-secundario" id="pagina-proxima">Próxima</button>
+                </nav>
+                <noscript><p>Ative o JavaScript para carregar as estratégias dos chefes.</p></noscript>
+            </section>
+
+            <aside id="conquistas" class="sidebar">
+                <h2>100% Completo (Todas as Conquistas)</h2>
+                <p class="progresso-texto" id="progresso-texto">Entre na sua conta para salvar o seu progresso.</p>
+                <progress id="progresso-barra" max="100" value="0" aria-labelledby="progresso-texto" hidden></progress>
+                <div class="scroll-conquistas">
+                    <ul class="lista-conquistas" id="lista-conquistas"></ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer id="contato">
+        <div class="container footer-grid">
+            <div class="form-container">
+                <h2>Sugerir Nova Tática</h2>
+                <form class="form-contato" id="form-tatica" novalidate>
+                    <p class="aviso-login" id="aviso-login-tatica">Para enviar uma tática, <a href="conta.html">entre na sua conta</a>.</p>
+                    <div class="input-group">
+                        <label for="tatica-chefe">Chefe:</label>
+                        <select id="tatica-chefe" name="chefeId" required>
+                            <option value="">Selecione o chefe</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="tatica-conteudo">Análise da Estratégia:</label>
+                        <textarea id="tatica-conteudo" name="conteudo" required minlength="10" maxlength="1000" placeholder="Descreva os padrões notados..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primario">Registrar Estratégia</button>
+                    <p id="status-tatica" class="mensagem" role="status"></p>
+                </form>
+            </div>
+            <div class="footer-links">
+                <p>Interface SCOM-Vitor · Trabalho II</p>
+                <a href="#inicio" class="btn-voltar">Retornar ao topo da página</a>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="js/inicio.js"></script>
+</body>
+</html>

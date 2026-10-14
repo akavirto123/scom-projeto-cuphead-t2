@@ -1,0 +1,11 @@
+Ambiente: Node v22.22.0, 10 conexões, 5s por endpoint
+
+| Endpoint | Req/s (média) | Latência média (ms) | p50 (ms) | p99 (ms) | Erros/não-2xx |
+|---|---:|---:|---:|---:|---:|
+| `GET /api/chefes` | 537 | 18.11 | 16 | 45 | 0 |
+| `GET /api/chefes?ilha=2&busca=the&limite=10` | 761 | 12.63 | 11 | 35 | 0 |
+| `GET /api/chefes/1` | 996 | 9.54 | 9 | 22 | 0 |
+| `GET /api/chefes/1/taticas` | 975 | 9.75 | 9 | 19 | 0 |
+| `GET /api/conquistas` | 1219 | 7.71 | 7 | 16 | 0 |
+
+bcrypt (custo 12): gerar hash 513 ms, verificar 460 ms por login

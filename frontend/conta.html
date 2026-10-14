@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta | Cuphead Boss Guide</title>
+    <meta name="description" content="Entre ou crie sua conta no Cuphead Boss Guide para salvar conquistas e sugerir táticas.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="inicio">
+    <header>
+        <div class="header-container">
+            <p class="logo"><a href="index.html">Cuphead Boss Guide</a></p>
+            <nav aria-label="Navegação principal">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#estrategias">Chefes</a></li>
+                    <li><a href="conta.html" aria-current="page">Conta</a></li>
+                </ul>
+            </nav>
+            <div class="area-usuario" id="area-usuario" aria-live="polite"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="titulo-pagina">Minha Conta</h1>
+
+        <!-- Visitante: login e cadastro -->
+        <div class="painel-duplo" id="painel-visitante" hidden>
+            <section class="painel" aria-labelledby="titulo-login">
+                <h2 id="titulo-login">Entrar</h2>
+                <form id="form-login" novalidate>
+                    <div class="input-group">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" name="email" autocomplete="username" required maxlength="254">
+                    </div>
+                    <div class="input-group">
+                        <label for="login-senha">Senha</label>
+                        <input type="password" id="login-senha" name="senha" autocomplete="current-password" required maxlength="72">
+                    </div>
+                    <button type="submit" class="btn-primario">Entrar</button>
+                    <p id="status-login" class="mensagem" role="status"></p>
+                </form>
+            </section>
+
+            <section class="painel" aria-labelledby="titulo-cadastro">
+                <h2 id="titulo-cadastro">Criar conta</h2>
+                <form id="form-cadastro" novalidate>
+                    <div class="input-group">
+                        <label for="cadastro-nome">Nome</label>
+                        <input type="text" id="cadastro-nome" name="nome" autocomplete="nickname" required minlength="2" maxlength="60">
+                    </div>
+                    <div class="input-group">
+                        <label for="cadastro-email">E-mail</label>
+                        <input type="email" id="cadastro-email" name="email" autocomplete="email" required maxlength="254">
+                    </div>
+                    <div class="input-group">
+                        <label for="cadastro-senha">Senha <small>(mínimo 8 caracteres, com letras e números)</small></label>
+                        <input type="password" id="cadastro-senha" name="senha" autocomplete="new-password" required minlength="8" maxlength="72">
+                    </div>
+                    <button type="submit" class="btn-primario">Cadastrar</button>
+                    <p id="status-cadastro" class="mensagem" role="status"></p>
+                </form>
+            </section>
+        </div>
+
+        <!-- Usuário logado: dados e táticas enviadas -->
+        <div id="painel-usuario" hidden>
+            <section class="painel" aria-labelledby="titulo-perfil">
+                <h2 id="titulo-perfil">Meus dados</h2>
+                <dl class="dados-conta">
+                    <dt>Nome</dt><dd id="conta-nome"></dd>
+                    <dt>E-mail</dt><dd id="conta-email"></dd>
+                    <dt>Perfil</dt><dd id="conta-perfil"></dd>
+                </dl>
+            </section>
+
+            <section class="painel" aria-labelledby="titulo-minhas">
+                <h2 id="titulo-minhas">Minhas táticas</h2>
+                <p id="status-minhas" class="mensagem" role="status"></p>
+                <div class="tabela-rolavel">
+                    <table class="tabela">
+                        <caption class="sr-only">Táticas enviadas por você</caption>
+                        <thead>
+                            <tr><th scope="col">Chefe</th><th scope="col">Tática</th><th scope="col">Status</th><th scope="col">Ações</th></tr>
+                        </thead>
+                        <tbody id="lista-minhas"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Interface SCOM-Vitor · Trabalho II</p>
+        </div>
+    </footer>
+    <script type="module" src="js/conta.js"></script>
+</body>
+</html>

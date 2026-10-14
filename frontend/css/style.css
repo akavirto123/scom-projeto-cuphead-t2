@@ -55,7 +55,7 @@ p {
 header {
     background-color: var(--bg-escuro);
     border-bottom: 8px solid var(--vermelho-cuphead);
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 100;
     box-shadow: 0 6px 15px rgba(0,0,0,0.7);
@@ -113,7 +113,7 @@ nav a:hover, nav a[aria-current="page"] {
     box-shadow: 0 0 10px rgba(198, 40, 40, 0.8);
 }
 
-a:focus, button:focus, input:focus, textarea:focus {
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
     outline: 4px solid var(--foco-acessivel);
     outline-offset: 4px;
 }
@@ -443,7 +443,7 @@ label {
     font-size: 1.2rem;
 }
 
-input, textarea {
+input, textarea, select {
     padding: 1.2rem;
     border: 4px solid var(--bg-escuro);
     border-radius: 10px;
@@ -456,7 +456,7 @@ input, textarea {
     font-size: 1.1rem;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     background-color: #ffffff;
     color: var(--bg-escuro);
 }
@@ -484,6 +484,7 @@ input:focus, textarea:focus {
 
 /* Breakpoints para responsividade */
 @media (min-width: 768px) {
+    header { position: sticky; } /* no celular o cabeçalho fixo ocuparia metade da tela */
     .layout-duplo { flex-direction: row; }
     .section-principal { flex: 2; }
     .sidebar { flex: 1; position: sticky; top: 120px; } /* Faz a barra de conquistas acompanhar a rolagem da tela */
@@ -495,4 +496,377 @@ input:focus, textarea:focus {
 .btn-primario:active, .btn-voltar:active {
     transform: translateY(2px);
     box-shadow: 4px 4px 0px var(--amarelo-vintage);
+}
+/* =====================================================================
+   Trabalho II - componentes dinâmicos (login, filtros, painel admin)
+   ===================================================================== */
+
+[hidden] {
+    display: none !important;
+}
+
+/* Cabeçalho: área do usuário */
+.logo {
+    margin: 0;
+}
+
+.logo a {
+    font-family: 'Bangers', display;
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: var(--amarelo-vintage);
+    text-decoration: none;
+    text-shadow: 3px 3px 0 var(--vermelho-cuphead);
+}
+
+.area-usuario {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.usuario-nome {
+    color: var(--amarelo-vintage);
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.btn-entrar, .btn-sair, .btn-admin {
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: 30px;
+    border: 3px solid var(--amarelo-vintage);
+    cursor: pointer;
+}
+
+.btn-entrar, .btn-admin {
+    background-color: var(--vermelho-cuphead);
+    color: var(--texto-claro);
+}
+
+.btn-sair {
+    background-color: transparent;
+    color: var(--texto-claro);
+}
+
+.aviso-offline {
+    color: var(--amarelo-vintage);
+    font-weight: 700;
+}
+
+.titulo-pagina {
+    color: var(--texto-escuro);
+    font-size: 3rem;
+    margin: 0;
+}
+
+/* Botões auxiliares */
+.btn-secundario, .btn-taticas, .btn-pequeno {
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-secundario {
+    background-color: var(--bg-escuro);
+    color: var(--amarelo-vintage);
+    border: 4px solid var(--bg-escuro);
+    padding: 0.9rem 1.6rem;
+    font-size: 1rem;
+    box-shadow: 5px 5px 0 var(--vermelho-cuphead);
+}
+
+.btn-taticas {
+    margin-top: 0.5rem;
+    background-color: var(--amarelo-vintage);
+    color: var(--bg-escuro);
+    border: 3px solid var(--bg-escuro);
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-pequeno {
+    background-color: var(--vermelho-cuphead);
+    color: var(--texto-claro);
+    border: 3px solid var(--bg-escuro);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.btn-neutro {
+    background-color: #424242;
+}
+
+.btn-perigo {
+    background-color: #7f0000;
+}
+
+.btn-secundario:hover, .btn-taticas:hover, .btn-pequeno:hover {
+    transform: translateY(-3px);
+}
+
+button:disabled, button:disabled:hover {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Filtros e paginação dos chefes */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.filtros .input-group {
+    margin-bottom: 0;
+    flex: 1 1 200px;
+}
+
+.filtros input, .filtros select {
+    padding: 0.8rem;
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    font-weight: 900;
+}
+
+.dificuldade {
+    color: var(--vermelho-cuphead);
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    margin: 0 0 0.5rem;
+}
+
+.taticas-comunidade {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 3px dashed var(--bg-escuro);
+}
+
+.lista-taticas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-taticas li {
+    margin-bottom: 1rem;
+}
+
+.lista-taticas p {
+    margin: 0 0 0.3rem;
+    white-space: pre-line;
+}
+
+/* Mensagens de status */
+.mensagem:empty {
+    display: none;
+}
+
+.mensagem {
+    margin: 1rem 0;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    border: 3px solid var(--bg-escuro);
+    font-weight: 700;
+    max-width: none;
+}
+
+.mensagem-erro {
+    background-color: #fdecea;
+    color: #8e0000;
+}
+
+.mensagem-sucesso {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+}
+
+.mensagem-info {
+    background-color: var(--texto-claro);
+    color: var(--texto-escuro);
+}
+
+.aviso-login {
+    font-weight: 700;
+    color: var(--texto-escuro);
+}
+
+.aviso-login a {
+    color: var(--vermelho-cuphead);
+}
+
+/* Progresso das conquistas */
+.progresso-texto {
+    font-weight: 900;
+    color: var(--bg-escuro);
+}
+
+progress {
+    width: 100%;
+    height: 1.2rem;
+    margin-bottom: 1.5rem;
+    accent-color: var(--vermelho-cuphead);
+}
+
+.conquista-marcavel label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 0.6rem;
+    cursor: pointer;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.conquista-marcavel label strong {
+    flex: 1 1 70%;
+}
+
+input[type="checkbox"] {
+    width: 1.4rem;
+    height: 1.4rem;
+    padding: 0;
+    accent-color: var(--vermelho-cuphead);
+    flex: 0 0 auto;
+}
+
+/* Painéis das páginas Conta e Admin */
+.painel {
+    background-color: var(--texto-claro);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 6px solid var(--bg-escuro);
+    box-shadow: 10px 10px 0 var(--amarelo-vintage);
+    margin-bottom: 3rem;
+}
+
+.painel-duplo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.form-grade {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-grade .input-group {
+    margin-bottom: 1.2rem;
+}
+
+.campo-largo {
+    grid-column: 1 / -1;
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filtro-compacto {
+    max-width: 320px;
+}
+
+.dados-conta {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.dados-conta dt {
+    font-weight: 900;
+}
+
+.dados-conta dd {
+    margin: 0;
+}
+
+/* Tabelas */
+.tabela-rolavel {
+    overflow-x: auto;
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+}
+
+.tabela th {
+    background-color: var(--bg-escuro);
+    color: var(--amarelo-vintage);
+    text-align: left;
+    padding: 0.8rem;
+    font-family: 'Bangers', display;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.tabela td {
+    padding: 0.8rem;
+    border-bottom: 2px solid #ddd;
+    vertical-align: top;
+    white-space: pre-line;
+}
+
+.tabela td textarea {
+    min-height: 6rem;
+}
+
+.acoes button {
+    margin: 0 0.4rem 0.4rem 0;
+}
+
+.selo {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    border: 2px solid var(--bg-escuro);
+    font-weight: 900;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.selo-pendente {
+    background-color: var(--amarelo-vintage);
+    color: var(--bg-escuro);
+}
+
+.selo-aprovada {
+    background-color: #2e7d32;
+    color: var(--texto-claro);
+}
+
+.selo-rejeitada {
+    background-color: #616161;
+    color: var(--texto-claro);
+}
+
+@media (min-width: 768px) {
+    .painel-duplo { grid-template-columns: 1fr 1fr; }
+    .form-grade { grid-template-columns: 1fr 1fr; }
 }

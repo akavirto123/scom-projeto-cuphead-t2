@@ -1,0 +1,25 @@
+# Dependências
+node_modules/
+
+# Configuração local (segredos ficam fora do repositório)
+.env
+
+# Logs gerados em execução
+logs/
+*.log
+
+# Arquivos temporários / sistema
+.DS_Store
+Thumbs.db
+*.tmp
+coverage/
+
+# Artefatos de compilação do LaTeX
+docs/relatorio/*.aux
+docs/relatorio/*.log
+docs/relatorio/*.out
+docs/relatorio/*.toc
+docs/relatorio/*.fls
+docs/relatorio/*.fdb_latexmk
+docs/relatorio/*.synctex.gz
+docs/relatorio/*.xdv

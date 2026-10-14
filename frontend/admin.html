@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração | Cuphead Boss Guide</title>
+    <meta name="description" content="Painel de administração do Cuphead Boss Guide.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="inicio">
+    <header>
+        <div class="header-container">
+            <p class="logo"><a href="index.html">Cuphead Boss Guide</a></p>
+            <nav aria-label="Navegação principal">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="#admin-chefes">Chefes</a></li>
+                    <li><a href="#admin-moderacao">Moderação</a></li>
+                    <li><a href="#admin-usuarios">Usuários</a></li>
+                </ul>
+            </nav>
+            <div class="area-usuario" id="area-usuario" aria-live="polite"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="titulo-pagina">Painel do Administrador</h1>
+        <p id="status-acesso" class="mensagem" role="status"></p>
+
+        <div id="painel-admin" hidden>
+            <!-- CRUD de chefes -->
+            <section class="painel" id="admin-chefes" aria-labelledby="titulo-chefes">
+                <h2 id="titulo-chefes">Chefes</h2>
+                <form id="form-chefe" class="form-grade" novalidate>
+                    <input type="hidden" id="chefe-id" name="id">
+                    <div class="input-group">
+                        <label for="chefe-nome">Nome</label>
+                        <input type="text" id="chefe-nome" name="nome" required minlength="2" maxlength="60">
+                    </div>
+                    <div class="input-group">
+                        <label for="chefe-fase">Fase</label>
+                        <input type="text" id="chefe-fase" name="fase" required minlength="2" maxlength="80">
+                    </div>
+                    <div class="input-group">
+                        <label for="chefe-ilha">Ilha</label>
+                        <select id="chefe-ilha" name="ilhaId" required></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="chefe-dificuldade">Dificuldade (1 a 5)</label>
+                        <input type="number" id="chefe-dificuldade" name="dificuldade" required min="1" max="5" value="3">
+                    </div>
+                    <div class="input-group campo-largo">
+                        <label for="chefe-estrategia">Estratégia</label>
+                        <textarea id="chefe-estrategia" name="estrategia" required minlength="20" maxlength="1000"></textarea>
+                    </div>
+                    <div class="botoes campo-largo">
+                        <button type="submit" class="btn-primario" id="chefe-salvar">Cadastrar chefe</button>
+                        <button type="button" class="btn-secundario" id="chefe-cancelar" hidden>Cancelar edição</button>
+                    </div>
+                    <p id="status-chefe" class="mensagem campo-largo" role="status"></p>
+                </form>
+
+                <div class="tabela-rolavel">
+                    <table class="tabela">
+                        <caption class="sr-only">Chefes cadastrados</caption>
+                        <thead>
+                            <tr><th scope="col">Nome</th><th scope="col">Ilha</th><th scope="col">Dificuldade</th><th scope="col">Ações</th></tr>
+                        </thead>
+                        <tbody id="lista-admin-chefes"></tbody>
+                    </table>
+                </div>
+                <nav class="paginacao" aria-label="Paginação da tabela de chefes">
+                    <button type="button" class="btn-secundario" id="chefes-anterior">Anterior</button>
+                    <span id="chefes-pagina">Página 1</span>
+                    <button type="button" class="btn-secundario" id="chefes-proxima">Próxima</button>
+                </nav>
+            </section>
+
+            <!-- Moderação de táticas -->
+            <section class="painel" id="admin-moderacao" aria-labelledby="titulo-moderacao">
+                <h2 id="titulo-moderacao">Moderação de táticas</h2>
+                <div class="input-group filtro-compacto">
+                    <label for="filtro-status">Mostrar</label>
+                    <select id="filtro-status">
+                        <option value="pendente">Pendentes</option>
+                        <option value="aprovada">Aprovadas</option>
+                        <option value="rejeitada">Rejeitadas</option>
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <p id="status-moderacao" class="mensagem" role="status"></p>
+                <div class="tabela-rolavel">
+                    <table class="tabela">
+                        <caption class="sr-only">Táticas enviadas pela comunidade</caption>
+                        <thead>
+                            <tr><th scope="col">Chefe</th><th scope="col">Autor</th><th scope="col">Tática</th><th scope="col">Status</th><th scope="col">Ações</th></tr>
+                        </thead>
+                        <tbody id="lista-moderacao"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Usuários e perfis -->
+            <section class="painel" id="admin-usuarios" aria-labelledby="titulo-usuarios">
+                <h2 id="titulo-usuarios">Usuários</h2>
+                <p id="status-usuarios" class="mensagem" role="status"></p>
+                <div class="tabela-rolavel">
+                    <table class="tabela">
+                        <caption class="sr-only">Usuários cadastrados</caption>
+                        <thead>
+                            <tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Perfil</th></tr>
+                        </thead>
+                        <tbody id="lista-usuarios"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Interface SCOM-Vitor · Trabalho II</p>
+        </div>
+    </footer>
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
