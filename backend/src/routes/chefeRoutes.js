@@ -7,9 +7,7 @@ export function criarRotasChefes({ chefeController, taticaController, acesso }) 
   rotas.get('/:id', acesso.exigirPermissao('chefe:listar'), chefeController.obter);
   rotas.put('/:id', acesso.exigirPermissao('chefe:editar'), chefeController.atualizar);
   rotas.delete('/:id', acesso.exigirPermissao('chefe:excluir'), chefeController.excluir);
-  if (taticaController) {
-    rotas.get('/:id/taticas', acesso.exigirPermissao('tatica:listar_aprovadas'), taticaController.listarDoChefe);
-  }
+  rotas.get('/:id/taticas', acesso.exigirPermissao('tatica:listar_aprovadas'), taticaController.listarDoChefe);
   return rotas;
 }
 
