@@ -1,46 +1,10 @@
-*-.   af53215 (refs/stash) WIP on docs/relatorio: 0853e19 merge: docs/documentacao em develop
-|\ \  
-| | * 00ae889 untracked files on docs/relatorio: 0853e19 merge: docs/documentacao em develop
-| * 9afd585 index on docs/relatorio: 0853e19 merge: docs/documentacao em develop
-|/  
-*   16ebb42 merge: docs/documentacao em develop
+*   62749e0 (HEAD -> main) release: Trabalho Individual II (backend, banco, autenticação e testes)
 |\  
-| * 72b0636 docs: adiciona evidências de testes, logs, desempenho e checklist
-| * b756feb fix(frontend): ajusta cabeçalho no celular e colunas de ações das tabelas
-| * b711338 docs: documenta API, arquitetura e instruções de execução
-| * 895be3a fix(db): reset das migrações remove apenas objetos do projeto
-|/  
-*   4e14743 merge: test/testes-automatizados em develop
-|\  
-| * 0f257a5 test: adiciona testes unitários, de integração e de segurança
-|/  
-*   2d34bc6 merge: feature/frontend-integracao em develop
-|\  
-| * 0e2087e feat(frontend): integra a interface do T1 com a API
-|/  
-*   eaa1d07 merge: feature/taticas-conquistas em develop
-|\  
-| * 9ef77d8 feat(taticas): persiste táticas da comunidade e progresso de conquistas
-|/  
-*   bdebbef merge: feature/api-chefes em develop
-|\  
-| * 0b874f3 feat(chefes): adiciona CRUD de chefes com paginação, filtros e perfis
-|/  
-*   5309573 merge: feature/autenticacao em develop
-|\  
-| * ad93d38 feat(auth): implementa cadastro, login e logout com sessão segura
-|/  
-*   dd4c76e merge: feature/banco-de-dados em develop
-|\  
-| * 9695b92 feat(db): cria modelo de dados com migrações e script SQL completo
-|/  
-*   69c5515 merge: feature/estrutura-backend em develop
-|\  
-| * 8d690b8 feat(backend): cria estrutura base da API com Express
-|/  
-* a1dabf3 chore: reorganiza o projeto do T1 na pasta frontend/
-* 4341785 Formatação do README.md
-| *   e5db18a (HEAD -> docs/relatorio, develop) merge: docs/documentacao em develop
+| *   de675a1 (develop) merge: docs/relatorio em develop
+| |\  
+| | * 1c95110 (docs/relatorio) docs(relatorio): adiciona relatório técnico em LaTeX e PDF
+| |/  
+| *   e5db18a merge: docs/documentacao em develop
 | |\  
 | | * fdd2e1e (docs/documentacao) docs: adiciona evidências de testes, logs, desempenho e checklist
 | | * a53e38c fix(frontend): ajusta cabeçalho no celular e colunas de ações das tabelas
@@ -76,7 +40,50 @@
 | | * b76af74 (feature/estrutura-backend) feat(backend): cria estrutura base da API com Express
 | |/  
 | * 0bcde00 chore: reorganiza o projeto do T1 na pasta frontend/
-| * 8887065 (tag: v1.0, origin/main, origin/HEAD, main) Formatação do README.md
+|/  
+* 8887065 (tag: v1.0, origin/main, origin/HEAD) Formatação do README.md
+| *-.   af53215 (refs/stash) WIP on docs/relatorio: 0853e19 merge: docs/documentacao em develop
+| |\ \  
+| | | * 00ae889 untracked files on docs/relatorio: 0853e19 merge: docs/documentacao em develop
+| | * 9afd585 index on docs/relatorio: 0853e19 merge: docs/documentacao em develop
+| |/  
+| *   16ebb42 merge: docs/documentacao em develop
+| |\  
+| | * 72b0636 docs: adiciona evidências de testes, logs, desempenho e checklist
+| | * b756feb fix(frontend): ajusta cabeçalho no celular e colunas de ações das tabelas
+| | * b711338 docs: documenta API, arquitetura e instruções de execução
+| | * 895be3a fix(db): reset das migrações remove apenas objetos do projeto
+| |/  
+| *   4e14743 merge: test/testes-automatizados em develop
+| |\  
+| | * 0f257a5 test: adiciona testes unitários, de integração e de segurança
+| |/  
+| *   2d34bc6 merge: feature/frontend-integracao em develop
+| |\  
+| | * 0e2087e feat(frontend): integra a interface do T1 com a API
+| |/  
+| *   eaa1d07 merge: feature/taticas-conquistas em develop
+| |\  
+| | * 9ef77d8 feat(taticas): persiste táticas da comunidade e progresso de conquistas
+| |/  
+| *   bdebbef merge: feature/api-chefes em develop
+| |\  
+| | * 0b874f3 feat(chefes): adiciona CRUD de chefes com paginação, filtros e perfis
+| |/  
+| *   5309573 merge: feature/autenticacao em develop
+| |\  
+| | * ad93d38 feat(auth): implementa cadastro, login e logout com sessão segura
+| |/  
+| *   dd4c76e merge: feature/banco-de-dados em develop
+| |\  
+| | * 9695b92 feat(db): cria modelo de dados com migrações e script SQL completo
+| |/  
+| *   69c5515 merge: feature/estrutura-backend em develop
+| |\  
+| | * 8d690b8 feat(backend): cria estrutura base da API com Express
+| |/  
+| * a1dabf3 chore: reorganiza o projeto do T1 na pasta frontend/
+| * 4341785 Formatação do README.md
 |/  
 * 0533055 Adição de interatividade tátil nos botões e efeito de rotação nos cards
 * 993580c Implementação de interatividade CSS e filtros visuais na galeria
