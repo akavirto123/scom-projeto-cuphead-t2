@@ -20,16 +20,21 @@ import { criarMiddlewaresDeAcesso } from './middlewares/autorizacao.js';
 import { criarLimitadorDaApi, criarLimitadorDeLogin } from './middlewares/limitadores.js';
 
 import { criarUsuarioRepository } from './repositories/usuarioRepository.js';
+import { criarIlhaRepository } from './repositories/ilhaRepository.js';
+import { criarChefeRepository } from './repositories/chefeRepository.js';
 
 import { criarHasherBcrypt } from './services/hasher.js';
 import { criarAuthService } from './services/authService.js';
 import { criarUsuarioService } from './services/usuarioService.js';
+import { criarChefeService } from './services/chefeService.js';
 
 import { criarAuthController } from './controllers/authController.js';
 import { criarUsuarioController } from './controllers/usuarioController.js';
+import { criarChefeController } from './controllers/chefeController.js';
 
 import { criarRotasAuth } from './routes/authRoutes.js';
 import { criarRotasUsuarios } from './routes/usuarioRoutes.js';
+import { criarRotasChefes, criarRotasIlhas } from './routes/chefeRoutes.js';
 
 /** Content Security Policy: de onde a página pode carregar cada recurso. */
 const POLITICA_DE_CONTEUDO = {
@@ -52,16 +57,20 @@ const POLITICA_DE_CONTEUDO = {
 export function criarApp({ pool, config = configPadrao, logger = loggerPadrao }) {
   // ---- Camada de acesso a dados ----
   const usuarioRepository = criarUsuarioRepository(pool);
+  const ilhaRepository = criarIlhaRepository(pool);
+  const chefeRepository = criarChefeRepository(pool);
 
   // ---- Camada de lógica de aplicação ----
   const hasher = criarHasherBcrypt(config.seguranca.custoBcrypt);
   const authService = criarAuthService({ usuarioRepository, hasher, logger });
   const usuarioService = criarUsuarioService({ usuarioRepository, logger });
+  const chefeService = criarChefeService({ chefeRepository, ilhaRepository, logger });
 
   // ---- Camada HTTP ----
   const configSessao = config.sessao;
   const authController = criarAuthController({ authService, logger, configSessao });
   const usuarioController = criarUsuarioController({ usuarioService });
+  const chefeController = criarChefeController({ chefeService, ilhaRepository });
   const acesso = criarMiddlewaresDeAcesso({ logger });
 
   const api = express.Router();
@@ -87,6 +96,8 @@ export function criarApp({ pool, config = configPadrao, logger = loggerPadrao })
   });
   api.use('/auth', criarRotasAuth({ authController, acesso, limitadorDeLogin }));
   api.use('/usuarios', criarRotasUsuarios({ usuarioController, acesso }));
+  api.use('/ilhas', criarRotasIlhas({ chefeController }));
+  api.use('/chefes', criarRotasChefes({ chefeController, acesso }));
   api.use(rotaNaoEncontrada);
 
   // ---- Aplicação ----
