@@ -87,4 +87,4 @@ Legenda: **[X]** atendido · onde verificar.
 | Script SQL | [X] |
 | Relatório PDF | [X] |
 | Link do repositório Git | [X] |
-| Vídeo de demonstração | [ ] gravar (roteiro no relatório, apêndice) |
+| Vídeo de demonstração | [ ] gravar (roteiro em `docs/ROTEIRO_VIDEO.md`) |
