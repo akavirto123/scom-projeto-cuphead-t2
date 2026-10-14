@@ -21,6 +21,7 @@
                     <li><a href="#contato">Contato</a></li>
                 </ul>
             </nav>
+            <div class="area-usuario" id="area-usuario" aria-live="polite"></div>
         </div>
     </header>
 
@@ -78,145 +79,35 @@
         <div class="layout-duplo">
             <section id="estrategias" class="section-principal">
                 <h2>Análise de padrões</h2>
-                <div class="grid-cards">
-                    <!-- Ilha 1 -->
-                    <article class="card">
-                        <h3>The Root Pack</h3>
-                        <p class="tag">Ilha 1 - Botanic Panic</p>
-                        <p>O FSM transita de forma linear: Batata (projéteis horizontais), Cebola (gotas verticais baseadas na sua posição) e Cenoura (raios teleguiados). Fique sempre no fundo da tela.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Goopy Le Grande</h3>
-                        <p class="tag">Ilha 1 - Ruse of an Ooze</p>
-                        <p>IA baseada em saltos que calculam a distância do jogador. Use o Smoke Dash pouco antes dele pousar. Na fase do túmulo, corra sem parar de um lado ao outro.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Hilda Berg</h3>
-                        <p class="tag">Ilha 1 - Threatenin' Zeppelin</p>
-                        <p>Batalha aérea. As transformações do zodíaco mudam a IA. Touro (avanço horizontal rápido), Gêmeos (bola de fogo circular), Arqueiro (estrelas teleguiadas).</p>
-                    </article>
-                    <article class="card">
-                        <h3>Cagney Carnation</h3>
-                        <p class="tag">Ilha 1 - Floral Fury</p>
-                        <p>Fique apenas nas plataformas voadoras. O ataque de alongamento é telegrafado; caia para o chão assim que ele retrair o rosto.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Ribby and Croaks</h3>
-                        <p class="tag">Ilha 1 - Clip Joint Calamity</p>
-                        <p>Na última fase (Caça-níqueis), o ataque depende das moedas roladas. Dê parry na manivela rosa o mais rápido possível para iniciar a fase de dano.</p>
-                    </article>
-
-                    <!-- Ilha 2 -->
-                    <article class="card">
-                        <h3>Baroness Von Bon Bon</h3>
-                        <p class="tag">Ilha 2 - Sugarland Shimmy</p>
-                        <p>Você enfrentará 3 de 5 lacaios aleatórios. Arma Chaser é excelente para focar nos capangas enquanto desvia da Baronesa correndo com o castelo.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Beppi The Clown</h3>
-                        <p class="tag">Ilha 2 - Carnival Kerfuffle</p>
-                        <p>A montanha-russa corta a tela periodicamente. Guarde o Super Art para quando ele virar o carrossel gigante na fase final.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Djimmi The Great</h3>
-                        <p class="tag">Ilha 2 - Pyramid Peril</p>
-                        <p>Na fase das marionetes e pilares escaneando, minimize seu avião para ganhar agilidade extra. Use a bomba primária para causar dano por cima.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Grim Matchstick</h3>
-                        <p class="tag">Ilha 2 - Fiery Frolic</p>
-                        <p>Arma Lobber brilha aqui. Evite dar parry ou atirar nas bolas de fogo da fase final, pois elas explodem e se dividem, impossibilitando a esquiva.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Wally Warbles</h3>
-                        <p class="tag">Ilha 2 - Aviary Action</p>
-                        <p>Na fase do filho, mantenha-se girando em círculos ao redor dele. Quando Wally voltar de maca, jogue bombas na boca do pássaro sempre que abrir.</p>
-                    </article>
-
-                    <!-- Ilha 3 -->
-                    <article class="card">
-                        <h3>Rumor Honeybottoms</h3>
-                        <p class="tag">Ilha 3 - Honeycomb Herald</p>
-                        <p>A tela rola verticalmente. Equipe a arma Spread para dar dano massivo de perto quando ela descer para o centro da tela fingindo ler o livro.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Captain Brineybeard</h3>
-                        <p class="tag">Ilha 3 - Shootin N' Lootin</p>
-                        <p>Sempre observe o navio ao fundo, não apenas o pirata. O barco chupa o ar e cospe raios mortais; use o agachamento para desviar do raio do laser.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Sally Stageplay</h3>
-                        <p class="tag">Ilha 3 - Dramatic Fanatic</p>
-                        <p>Seus padrões são lentos e fáceis de ler (diagonais e quedas do céu). Use o Smoke Bomb para atravessar por ela sem se preocupar com a caixa de colisão.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Werner Werman</h3>
-                        <p class="tag">Ilha 3 - Murine Corps</p>
-                        <p>Ataques predominantemente terrestres. Equipe o dash que dá invencibilidade. Na fase final (gato), observe os destroços caindo do teto.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Dr. Kahl's Robot</h3>
-                        <p class="tag">Ilha 3 - Junkyard Jive</p>
-                        <p>Foco na antena inferior primeiro! Assim os drones param de poluir a tela. Na fase do coração, guarde a barra cheia de especial para pular de fase.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Cala Maria</h3>
-                        <p class="tag">Ilha 3 - High Seas Hi-Jinx</p>
-                        <p>Padrão de petrificação. Mantenha os dedos rápidos para balançar o direcional e quebrar o gelo. Voe rente às bordas da tela para desviar das cobras.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Phantom Express</h3>
-                        <p class="tag">Ilha 3 - Railroad Wrath</p>
-                        <p>Batalha sobre o carrinho. Evite usar armas que atiram automaticamente (como a Chaser), pois elas vão acertar as válvulas rosas e mover seu carrinho sem querer.</p>
-                    </article>
-
-                    <!-- Cassino e Diabo -->
-                    <article class="card">
-                        <h3>King Dice</h3>
-                        <p class="tag">Inkwell Hell - All Bets Are Off!</p>
-                        <p>A IA exige Parry preciso no dado. Aprenda a mirar nos números 2 (Fichas), 5 (Coelho) e 8 (Bola 8) para enfrentar os mini-chefes mais fáceis. Atrás das mãos no centro há um ponto seguro.</p>
-                    </article>
-                    <article class="card">
-                        <h3>The Devil</h3>
-                        <p class="tag">Inkwell Hell - One Hell of a Time</p>
-                        <p>Fase 1: Leia os olhos dele (cabra, aranha, dragão). Fase 2 em diante: Use a arma Spread e desça para a plataforma inferior. Fique exatamente no meio da tela na última fase para não errar a queda.</p>
-                    </article>
-                </div>
+                <form class="filtros" id="form-filtros" role="search" aria-label="Filtrar chefes">
+                    <div class="input-group">
+                        <label for="filtro-ilha">Ilha</label>
+                        <select id="filtro-ilha" name="ilha">
+                            <option value="">Todas as ilhas</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="filtro-busca">Buscar chefe ou fase</label>
+                        <input type="search" id="filtro-busca" name="busca" maxlength="60" placeholder="Ex.: Devil">
+                    </div>
+                    <button type="submit" class="btn-secundario">Filtrar</button>
+                </form>
+                <p id="status-chefes" class="mensagem" role="status"></p>
+                <div class="grid-cards" id="lista-chefes"></div>
+                <nav class="paginacao" aria-label="Paginação dos chefes">
+                    <button type="button" class="btn-secundario" id="pagina-anterior">Anterior</button>
+                    <span id="pagina-info">Página 1</span>
+                    <button type="button" class="btn-secundario" id="pagina-proxima">Próxima</button>
+                </nav>
+                <noscript><p>Ative o JavaScript para carregar as estratégias dos chefes.</p></noscript>
             </section>
 
             <aside id="conquistas" class="sidebar">
                 <h2>100% Completo (Todas as Conquistas)</h2>
+                <p class="progresso-texto" id="progresso-texto">Entre na sua conta para salvar o seu progresso.</p>
+                <progress id="progresso-barra" max="100" value="0" aria-labelledby="progresso-texto" hidden></progress>
                 <div class="scroll-conquistas">
-                    <ul class="lista-conquistas">
-                        <li><strong>Taking Names:</strong> Derrote um chefão.</li>
-                        <li><strong>A Walk in the Park:</strong> Derrote todos os chefes da Ilha 1.</li>
-                        <li><strong>A Day at the Fair:</strong> Derrote todos os chefes da Ilha 2.</li>
-                        <li><strong>A Trip Downtown:</strong> Derrote todos os chefes da Ilha 3.</li>
-                        <li><strong>Casino Night:</strong> Conclua o Cassino do King Dice.</li>
-                        <li><strong>Put On a Show:</strong> Consiga um Rank S.</li>
-                        <li><strong>Sheriff:</strong> Obtenha Rank A ou mais em todos os chefes da Ilha 1.</li>
-                        <li><strong>Boss:</strong> Obtenha Rank A ou mais em todos os chefes da Ilha 2.</li>
-                        <li><strong>Mayor:</strong> Obtenha Rank A ou mais em todos os chefes da Ilha 3.</li>
-                        <li><strong>Magician:</strong> Obtenha todas as Super Artes.</li>
-                        <li><strong>King:</strong> Compre todos os itens da loja do Porkrind.</li>
-                        <li><strong>Souls Saved:</strong> Termine o jogo no modo Normal.</li>
-                        <li><strong>Beat The Devil At His Own Game:</strong> Termine o jogo no modo Expert.</li>
-                        <li><strong>Butter-and-Egg Man:</strong> Compre tudo na loja.</li>
-                        <li><strong>Ceramic Strike:</strong> Derrote um chefe com o Ataque EX.</li>
-                        <li><strong>Porcelain Power:</strong> Derrote um chefe com um Super Art.</li>
-                        <li><strong>Magician Lord:</strong> Consiga todas as Super Artes.</li>
-                        <li><strong>Perfect Run:</strong> Complete uma fase sem tomar dano.</li>
-                        <li><strong>Coffers Full:</strong> Pegue todas as moedas nas fases Run 'n Gun.</li>
-                        <li><strong>Bouncing Ball:</strong> Dê 5 parrys seguidos antes de tocar o chão.</li>
-                        <li><strong>Parry Persuasion:</strong> Faça 20 parrys em um chefe.</li>
-                        <li><strong>Parry Performance:</strong> Faça 100 parrys no total.</li>
-                        <li><strong>Pacifist:</strong> Complete todos os níveis Run 'n Gun sem atirar/matar.</li>
-                        <li><strong>Rolling Sixes:</strong> Derrote o King Dice sem sofrer dano.</li>
-                        <li><strong>Bravo Zulu P-26:</strong> Derrote um chefe usando apenas balas pequenas de avião.</li>
-                        <li><strong>Cutting Corners:</strong> Descubra um atalho secreto no mapa do mundo.</li>
-                        <li><strong>High Roller:</strong> Obtenha todas as moedas no jogo.</li>
-                        <li><strong>Selling Out:</strong> Faça o acordo final com o Diabo (Bad Ending).</li>
-                    </ul>
+                    <ul class="lista-conquistas" id="lista-conquistas"></ul>
                 </div>
             </aside>
         </div>
@@ -226,23 +117,28 @@
         <div class="container footer-grid">
             <div class="form-container">
                 <h2>Sugerir Nova Tática</h2>
-                <form action="#" method="get" class="form-contato">
+                <form class="form-contato" id="form-tatica" novalidate>
+                    <p class="aviso-login" id="aviso-login-tatica">Para enviar uma tática, <a href="conta.html">entre na sua conta</a>.</p>
                     <div class="input-group">
-                        <label for="nome">Nome do Especialista:</label>
-                        <input type="text" id="nome" name="nome" required placeholder="Seu nome">
+                        <label for="tatica-chefe">Chefe:</label>
+                        <select id="tatica-chefe" name="chefeId" required>
+                            <option value="">Selecione o chefe</option>
+                        </select>
                     </div>
                     <div class="input-group">
-                        <label for="tatica">Análise da Estratégia:</label>
-                        <textarea id="tatica" name="tatica" required placeholder="Descreva os padrões notados..."></textarea>
+                        <label for="tatica-conteudo">Análise da Estratégia:</label>
+                        <textarea id="tatica-conteudo" name="conteudo" required minlength="10" maxlength="1000" placeholder="Descreva os padrões notados..."></textarea>
                     </div>
                     <button type="submit" class="btn-primario">Registrar Estratégia</button>
+                    <p id="status-tatica" class="mensagem" role="status"></p>
                 </form>
             </div>
             <div class="footer-links">
-                <p>Interface SCOM-Vitor</p>
+                <p>Interface SCOM-Vitor · Trabalho II</p>
                 <a href="#inicio" class="btn-voltar">Retornar ao topo da página</a>
             </div>
         </div>
     </footer>
+    <script type="module" src="js/inicio.js"></script>
 </body>
 </html>
