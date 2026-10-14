@@ -16,9 +16,17 @@ export async function listarArquivosDeMigracao() {
   return arquivos.filter((nome) => /^\d{3}_.+\.sql$/.test(nome)).sort();
 }
 
+// Objetos criados pelas migrações, na ordem segura de remoção (usado por
+// --resetar e pelos testes). Listados explicitamente para nunca apagar nada
+// que não pertença a este projeto.
+const OBJETOS_DO_PROJETO = `
+  DROP TABLE IF EXISTS usuario_conquistas, conquistas, taticas, chefes, ilhas,
+                       sessoes, usuarios, schema_migrations CASCADE;
+  DROP FUNCTION IF EXISTS definir_atualizado_em() CASCADE;`;
+
 export async function executarMigracoes(pool, { resetar = false, aoAplicar = () => {} } = {}) {
   if (resetar) {
-    await pool.query('DROP SCHEMA public CASCADE; CREATE SCHEMA public;');
+    await pool.query(OBJETOS_DO_PROJETO);
   }
 
   await pool.query(`

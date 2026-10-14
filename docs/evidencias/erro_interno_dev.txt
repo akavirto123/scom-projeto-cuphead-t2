@@ -1,0 +1,23 @@
+$ sudo service postgresql stop   # simula queda do banco
+$ curl http://localhost:3000/api/saude   # NODE_ENV=development
+{
+ "erro": {
+  "status": 500,
+  "codigo": "ERRO_INTERNO",
+  "mensagem": "Ocorreu um erro interno. Tente novamente mais tarde.",
+  "requisicaoId": "b9c70b6a-5ccb-4876-bfc8-3ecd5bfe2027",
+  "tecnico": {
+   "nome": "Error",
+   "mensagem": "connect ECONNREFUSED 127.0.0.1:5432",
+   "codigoBanco": "ECONNREFUSED",
+   "stack": [
+    "Error: connect ECONNREFUSED 127.0.0.1:5432",
+    "    at /home/claude/repo/backend/node_modules/pg-pool/index.js:45:11",
+    "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+    "    ..."
+   ]
+  }
+ }
+}
+HTTP 500
+

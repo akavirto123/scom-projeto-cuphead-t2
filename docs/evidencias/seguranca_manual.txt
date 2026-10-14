@@ -1,0 +1,134 @@
+=== TESTE 1: SQL Injection no login ===
+$ curl -X POST http://localhost:3000/api/auth/login -d '{"email":"admin@cuphead.local'\'' OR '\''1'\''='\''1'\'' --","senha":"x"}'
+{
+ "erro": {
+  "status": 422,
+  "codigo": "VALIDACAO",
+  "mensagem": "Os dados enviados são inválidos.",
+  "detalhes": [
+   {
+    "campo": "email",
+    "mensagem": "deve ser um e-mail válido."
+   }
+  ]
+ }
+}
+HTTP 422
+$ curl -X POST http://localhost:3000/api/auth/login -d '{"email":"admin@cuphead.local'\''--","senha":"'\'' OR '\''1'\''='\''1"}'   # passa na validação e chega ao banco
+{
+ "erro": {
+  "status": 401,
+  "codigo": "CREDENCIAIS_INVALIDAS",
+  "mensagem": "E-mail ou senha incorretos."
+ }
+}
+HTTP 401
+
+=== TESTE 1b: SQL Injection na busca de chefes ===
+$ curl "http://localhost:3000/api/chefes?busca=';%20DROP%20TABLE%20chefes;%20--"
+{
+ "dados": [],
+ "paginacao": {
+  "pagina": 1,
+  "limite": 6,
+  "total": 0,
+  "totalPaginas": 1
+ }
+}
+HTTP 200
+$ curl "http://localhost:3000/api/chefes?limite=1"   # a tabela continua intacta
+total de chefes: 19
+
+=== TESTE 2: XSS (armazenado e refletido) ===
+$ curl -X POST http://localhost:3000/api/taticas -d '{"chefeId":19,"conteudo":"<script>alert(document.cookie)</script> Fique no meio da tela."}'
+{
+ "dados": {
+  "id": 7,
+  "conteudo": "<script>alert(document.cookie)</script> Fique no meio da tela na última fase.",
+  "status": "pendente",
+  "chefeId": 19,
+  "chefeNome": "The Devil",
+  "usuarioId": 2,
+  "autorNome": "Cuphead",
+  "criadoEm": "2026-10-14T17:24:44.066Z",
+  "atualizadoEm": "2026-10-14T17:24:44.066Z"
+ }
+}
+HTTP 201
+$ curl -i "http://localhost:3000/api/chefes?busca=<img src=x onerror=alert(1)>"   # cabeçalhos
+HTTP/1.1 200 OK
+Content-Security-Policy: default-src 'self';script-src 'self';style-src 'self' https://fonts.googleapis.com;font-src 'self' https://fonts.gstatic.com;img-src 'self' data: https:;frame-src https://scratch.mit.edu;connect-src 'self';object-src 'none';base-uri 'self';form-action 'self';frame-ancestors 'none'
+X-Content-Type-Options: nosniff
+Content-Type: application/json; charset=utf-8
+
+=== TESTE 3: CSRF (requisição sem o token) ===
+$ curl -b cookies_jogador.txt -X POST http://localhost:3000/api/taticas -d '{...}'   # sem X-CSRF-Token
+{
+ "erro": {
+  "status": 403,
+  "codigo": "CSRF_INVALIDO",
+  "mensagem": "Token CSRF ausente ou inválido. Recarregue a página e tente novamente."
+ }
+}
+HTTP 403
+
+=== TESTE 4: Acesso sem login ===
+$ curl http://localhost:3000/api/taticas/minhas
+{
+ "erro": {
+  "status": 401,
+  "codigo": "NAO_AUTENTICADO",
+  "mensagem": "É necessário fazer login para acessar este recurso."
+ }
+}
+HTTP 401
+
+=== TESTE 5: Perfil insuficiente (jogador tentando ação de admin) ===
+$ curl -b cookies_jogador.txt -X DELETE http://localhost:3000/api/chefes/1 -H 'X-CSRF-Token: <token>'
+{
+ "erro": {
+  "status": 403,
+  "codigo": "ACESSO_NEGADO",
+  "mensagem": "Seu perfil não tem permissão para esta ação."
+ }
+}
+HTTP 403
+$ curl -b cookies_jogador.txt http://localhost:3000/api/usuarios
+{
+ "erro": {
+  "status": 403,
+  "codigo": "ACESSO_NEGADO",
+  "mensagem": "Seu perfil não tem permissão para esta ação."
+ }
+}
+HTTP 403
+
+=== TESTE 6: Reutilização de sessão após logout ===
+$ curl -b cookies_admin.txt -X POST http://localhost:3000/api/auth/logout -H 'X-CSRF-Token: <token>'
+HTTP 204
+$ curl -b cookies_admin_ANTIGO.txt http://localhost:3000/api/usuarios   # mesmo cookie de antes do logout
+{
+ "erro": {
+  "status": 401,
+  "codigo": "NAO_AUTENTICADO",
+  "mensagem": "É necessário fazer login para acessar este recurso."
+ }
+}
+HTTP 401
+
+=== TESTE 7: Rate limiting (força bruta no login) ===
+# limite: 5 falhas por IP a cada 15 min; as 2 tentativas do Teste 1 já contaram
+tentativa 1 -> HTTP 401
+tentativa 2 -> HTTP 401
+tentativa 3 -> HTTP 401
+tentativa 4 -> HTTP 429
+tentativa 5 -> HTTP 429
+tentativa 6 -> HTTP 429
+{
+ "erro": {
+  "status": 429,
+  "codigo": "MUITAS_REQUISICOES",
+  "mensagem": "Muitas tentativas de login. Aguarde 15 minutos e tente novamente."
+ }
+}
+HTTP 429

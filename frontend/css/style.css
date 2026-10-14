@@ -55,7 +55,7 @@ p {
 header {
     background-color: var(--bg-escuro);
     border-bottom: 8px solid var(--vermelho-cuphead);
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 100;
     box-shadow: 0 6px 15px rgba(0,0,0,0.7);
@@ -484,6 +484,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Breakpoints para responsividade */
 @media (min-width: 768px) {
+    header { position: sticky; } /* no celular o cabeçalho fixo ocuparia metade da tela */
     .layout-duplo { flex-direction: row; }
     .section-principal { flex: 2; }
     .sidebar { flex: 1; position: sticky; top: 120px; } /* Faz a barra de conquistas acompanhar a rolagem da tela */
@@ -836,10 +837,8 @@ input[type="checkbox"] {
     min-height: 6rem;
 }
 
-.acoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+.acoes button {
+    margin: 0 0.4rem 0.4rem 0;
 }
 
 .selo {
