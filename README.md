@@ -11,7 +11,7 @@ dados, autenticação, perfis de acesso, testes e documentação (tag `v2.0`).
 
 | | |
 |---|---|
-| Frontend | HTML5, CSS3 e JavaScript (módulos ES), sem frameworks |
+| Frontend | HTML5, CSS3 e JavaScript (módulos ES), sem frameworks; fontes vintage embutidas |
 | Backend | Node.js 22 + Express 4, arquitetura em camadas |
 | Banco | PostgreSQL 12+ (driver `pg`, consultas parametrizadas) |
 | Autenticação | Sessão no servidor + bcrypt + token CSRF |
