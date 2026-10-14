@@ -28,8 +28,8 @@ export class AppError extends Error {
     return new AppError(403, 'ACESSO_NEGADO', mensagem);
   }
 
-  static naoEncontrado(recurso = 'Recurso') {
-    return new AppError(404, 'NAO_ENCONTRADO', `${recurso} não encontrado.`);
+  static naoEncontrado(recurso = 'Recurso', { feminino = false } = {}) {
+    return new AppError(404, 'NAO_ENCONTRADO', `${recurso} não encontrad${feminino ? 'a' : 'o'}.`);
   }
 
   static conflito(mensagem) {

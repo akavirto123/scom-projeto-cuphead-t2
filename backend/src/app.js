@@ -22,19 +22,27 @@ import { criarLimitadorDaApi, criarLimitadorDeLogin } from './middlewares/limita
 import { criarUsuarioRepository } from './repositories/usuarioRepository.js';
 import { criarIlhaRepository } from './repositories/ilhaRepository.js';
 import { criarChefeRepository } from './repositories/chefeRepository.js';
+import { criarTaticaRepository } from './repositories/taticaRepository.js';
+import { criarConquistaRepository } from './repositories/conquistaRepository.js';
 
 import { criarHasherBcrypt } from './services/hasher.js';
 import { criarAuthService } from './services/authService.js';
 import { criarUsuarioService } from './services/usuarioService.js';
 import { criarChefeService } from './services/chefeService.js';
+import { criarTaticaService } from './services/taticaService.js';
+import { criarConquistaService } from './services/conquistaService.js';
 
 import { criarAuthController } from './controllers/authController.js';
 import { criarUsuarioController } from './controllers/usuarioController.js';
 import { criarChefeController } from './controllers/chefeController.js';
+import { criarTaticaController } from './controllers/taticaController.js';
+import { criarConquistaController } from './controllers/conquistaController.js';
 
 import { criarRotasAuth } from './routes/authRoutes.js';
 import { criarRotasUsuarios } from './routes/usuarioRoutes.js';
 import { criarRotasChefes, criarRotasIlhas } from './routes/chefeRoutes.js';
+import { criarRotasTaticas } from './routes/taticaRoutes.js';
+import { criarRotasConquistas } from './routes/conquistaRoutes.js';
 
 /** Content Security Policy: de onde a página pode carregar cada recurso. */
 const POLITICA_DE_CONTEUDO = {
@@ -59,18 +67,24 @@ export function criarApp({ pool, config = configPadrao, logger = loggerPadrao })
   const usuarioRepository = criarUsuarioRepository(pool);
   const ilhaRepository = criarIlhaRepository(pool);
   const chefeRepository = criarChefeRepository(pool);
+  const taticaRepository = criarTaticaRepository(pool);
+  const conquistaRepository = criarConquistaRepository(pool);
 
   // ---- Camada de lógica de aplicação ----
   const hasher = criarHasherBcrypt(config.seguranca.custoBcrypt);
   const authService = criarAuthService({ usuarioRepository, hasher, logger });
   const usuarioService = criarUsuarioService({ usuarioRepository, logger });
   const chefeService = criarChefeService({ chefeRepository, ilhaRepository, logger });
+  const taticaService = criarTaticaService({ taticaRepository, chefeRepository, logger });
+  const conquistaService = criarConquistaService({ conquistaRepository });
 
   // ---- Camada HTTP ----
   const configSessao = config.sessao;
   const authController = criarAuthController({ authService, logger, configSessao });
   const usuarioController = criarUsuarioController({ usuarioService });
   const chefeController = criarChefeController({ chefeService, ilhaRepository });
+  const taticaController = criarTaticaController({ taticaService });
+  const conquistaController = criarConquistaController({ conquistaService });
   const acesso = criarMiddlewaresDeAcesso({ logger });
 
   const api = express.Router();
@@ -97,7 +111,9 @@ export function criarApp({ pool, config = configPadrao, logger = loggerPadrao })
   api.use('/auth', criarRotasAuth({ authController, acesso, limitadorDeLogin }));
   api.use('/usuarios', criarRotasUsuarios({ usuarioController, acesso }));
   api.use('/ilhas', criarRotasIlhas({ chefeController }));
-  api.use('/chefes', criarRotasChefes({ chefeController, acesso }));
+  api.use('/chefes', criarRotasChefes({ chefeController, taticaController, acesso }));
+  api.use('/taticas', criarRotasTaticas({ taticaController, acesso }));
+  api.use('/conquistas', criarRotasConquistas({ conquistaController, acesso }));
   api.use(rotaNaoEncontrada);
 
   // ---- Aplicação ----
