@@ -1,6 +1,17 @@
-*   7543a21 (HEAD -> main) release: Trabalho Individual II com visual vintage e relatório final
+*   8e027b2 (HEAD -> main) release: Trabalho Individual II com palco de abertura e cartas 3D
 |\  
-| *   ec7ed1c (develop) merge: docs/relatorio-enxuto em develop
+| *   c58e677 (develop) merge: docs/novo-visual-e-repositorio em develop
+| |\  
+| | * 285526e (docs/novo-visual-e-repositorio) docs: atualiza capturas, Lighthouse e endereço do novo repositório
+| |/  
+| * c269567 merge: feature/palco-e-cartas-3d em develop
+|/| 
+| * 2f3791b (feature/palco-e-cartas-3d) feat(frontend): palco de abertura, cartas 3D e moedas animadas
+|/  
+* fc024a0 docs(relatorio): atualiza histórico Git no anexo F
+*   7543a21 release: Trabalho Individual II com visual vintage e relatório final
+|\  
+| *   ec7ed1c merge: docs/relatorio-enxuto em develop
 | |\  
 | | * 145deed (docs/relatorio-enxuto) docs(relatorio): reescreve relatório no formato do T1 e atualiza capturas
 | |/  
