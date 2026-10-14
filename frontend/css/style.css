@@ -159,40 +159,33 @@ header::after {
     bottom: 0;
     height: 14px;
     background: var(--lampadas), var(--vermelho-cuphead);
-    animation: piscar 1.6s steps(2) infinite;
-}
-
-@keyframes piscar {
-    50% { filter: brightness(1.35) saturate(1.2); }
 }
 
 .header-container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 0.8rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.8rem 1.5rem;
-}
-
-h1, .logo a {
-    margin: 0;
-    font-family: var(--fonte-logo);
-    font-size: clamp(2rem, 5vw, 3rem);
-    letter-spacing: 1px;
-    line-height: 1.1;
-    color: var(--amarelo-vintage);
-    text-decoration: none;
-    text-shadow:
-        -2px -2px 0 var(--tinta), 2px -2px 0 var(--tinta), -2px 2px 0 var(--tinta), 2px 2px 0 var(--tinta),
-        5px 5px 0 var(--vermelho-cuphead), 7px 7px 0 var(--tinta);
+    gap: 0.6rem 1.5rem;
 }
 
 .logo {
     margin: 0;
     max-width: none;
+}
+
+.logo a {
+    font-family: var(--fonte-logo);
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+    line-height: 1.1;
+    color: var(--amarelo-vintage);
+    text-decoration: none;
+    text-shadow:
+        -1px -1px 0 var(--tinta), 1px -1px 0 var(--tinta), -1px 1px 0 var(--tinta), 1px 1px 0 var(--tinta),
+        3px 3px 0 var(--vermelho-cuphead);
 }
 
 nav ul {
@@ -201,7 +194,7 @@ nav ul {
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.3rem;
 }
 
 nav a {
@@ -209,8 +202,8 @@ nav a {
     color: var(--texto-claro);
     text-decoration: none;
     font-family: var(--fonte-titulo);
-    font-size: 1rem;
-    padding: 0.35rem 0.9rem;
+    font-size: 0.98rem;
+    padding: 0.3rem 0.8rem;
     border: 2px solid transparent;
     border-radius: 6px;
     transition: background-color 0.2s, border-color 0.2s, color 0.2s;
@@ -238,15 +231,11 @@ nav a:hover, nav a[aria-current="page"] {
     text-decoration: none;
 }
 
-.usuario-nome::before {
-    content: '☕ ';
-}
-
 .btn-entrar, .btn-sair, .btn-admin {
     font-family: var(--fonte-titulo);
     font-size: 0.95rem;
     text-decoration: none;
-    padding: 0.4rem 1rem;
+    padding: 0.35rem 0.95rem;
     border-radius: 6px;
     border: 2px solid var(--amarelo-vintage);
     cursor: pointer;
@@ -269,41 +258,188 @@ nav a:hover, nav a[aria-current="page"] {
 }
 
 /* =====================================================================
+   Palco de abertura (página inicial)
+   As cortinas se abrem e a cartela de título entra, uma única vez.
+   ===================================================================== */
+.palco {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(26rem, 68vh, 40rem);
+    display: grid;
+    place-items: center;
+    padding: 5rem 1.5rem 4.5rem;
+    background: var(--tinta);
+    isolation: isolate;
+}
+
+/* Raios de sol das cartelas de desenho animado */
+.palco-raios {
+    position: absolute;
+    inset: -60%;
+    z-index: -2;
+    background:
+        repeating-conic-gradient(from 0deg, #f5c04a 0deg 7.5deg, #fadf94 7.5deg 15deg);
+    animation: raios-giram 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Íris escura nas bordas, como uma lente antiga */
+.palco::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(ellipse 62% 70% at 50% 46%, transparent 55%, rgba(20, 16, 16, 0.55) 78%, rgba(20, 16, 16, 0.9) 100%);
+}
+
+.cartela {
+    position: relative;
+    text-align: center;
+    max-width: 46rem;
+    animation: cartela-entra 0.9s cubic-bezier(0.3, 1.5, 0.5, 1) 0.7s both;
+}
+
+/* Título com letras em relevo (extrusão 3D com camadas de sombra) */
+.cartela h1 {
+    margin: 0 0 1rem;
+    font-family: var(--fonte-logo);
+    font-size: clamp(1.9rem, 8.4vw, 6.2rem);
+    line-height: 1;
+    color: var(--amarelo-vintage);
+    -webkit-text-stroke: 2px var(--tinta);
+    paint-order: stroke fill;
+    text-shadow:
+        1px 1px 0 #a51d1d, 2px 2px 0 #a51d1d, 3px 3px 0 #a51d1d, 4px 4px 0 #a51d1d,
+        5px 5px 0 #8e1414, 6px 6px 0 #8e1414, 7px 7px 0 #7a1010, 8px 8px 0 #7a1010,
+        9px 9px 0 var(--tinta), 10px 10px 0 var(--tinta), 12px 14px 12px rgba(20, 16, 16, 0.45);
+}
+
+.cartela-texto {
+    margin: 0 auto 1.8rem;
+    max-width: 32rem;
+    padding: 0.5rem 1.2rem;
+    font-family: var(--fonte-detalhe);
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    color: var(--tinta);
+    background: var(--papel);
+    border: 3px solid var(--tinta);
+    border-radius: 4px;
+    box-shadow: 5px 5px 0 var(--vermelho-cuphead);
+    transform: rotate(-1.5deg);
+}
+
+/* Cortinas de veludo: as dobras são gradientes repetidos */
+.cortina {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 51%;
+    z-index: 2;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 18%, transparent 80%, rgba(0, 0, 0, 0.45)),
+        repeating-linear-gradient(90deg, #6d0b0b 0, #a4161a 1.6rem, #c62828 2.4rem, #a4161a 3.2rem, #6d0b0b 4.4rem);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transform: scaleX(0.24);
+}
+
+.cortina-esquerda {
+    left: 0;
+    transform-origin: left center;
+    border-bottom-right-radius: 40% 12%;
+    animation: cortina-abre 1.3s cubic-bezier(0.7, 0, 0.3, 1) 0.25s both;
+}
+
+.cortina-direita {
+    right: 0;
+    transform-origin: right center;
+    border-bottom-left-radius: 40% 12%;
+    animation: cortina-abre 1.3s cubic-bezier(0.7, 0, 0.3, 1) 0.25s both;
+}
+
+/* Bambinela (faixa superior) com lâmpadas e franja recortada */
+.bambinela {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2.6rem;
+    z-index: 3;
+    height: 1.6rem;
+    background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px 2.2rem),
+        linear-gradient(#6d0b0b, #a4161a);
+    border-bottom: 3px solid var(--amarelo-vintage);
+}
+
+.bambinela::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 1.3rem;
+    background: radial-gradient(ellipse 50% 100% at 50% 0, #a4161a 0 96%, transparent 100%) 0 0 / 4.4rem 100% repeat-x;
+    filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.45));
+}
+
+/* Tábuas do palco */
+.palco-chao {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3rem;
+    z-index: 1;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 7rem, rgba(0, 0, 0, 0.35) 7rem 7.15rem),
+        linear-gradient(#8a5a2b, #5e3a17);
+    border-top: 4px solid var(--tinta);
+}
+
+@keyframes cortina-abre {
+    from { transform: scaleX(1); }
+}
+
+@keyframes raios-giram {
+    from { transform: rotate(-25deg) scale(0.9); }
+    to { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes cartela-entra {
+    /* Sem opacidade 0: o título já é pintado atrás das cortinas (bom para o LCP) */
+    0% { transform: translateY(-2.5rem) scale(0.6) rotate(-4deg); }
+    60% { transform: translateY(0.3rem) scale(1.04, 0.96) rotate(1deg); }
+    100% { transform: none; }
+}
+
+/* =====================================================================
    Estrutura e títulos de seção
    ===================================================================== */
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 2.5rem 2rem;
+    padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: 3.5rem;
+    gap: 4rem;
 }
 
 h2 {
     color: var(--texto-escuro);
     font-size: clamp(1.6rem, 3.5vw, 2.3rem);
-    margin: 0 0 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    margin: 0 0 1.4rem;
 }
 
-/* Filete com estrela, como nos letreiros dos anos 30 */
+/* Floreio curto sob o título */
 h2::after {
     content: '';
-    flex: 1;
-    min-width: 2rem;
-    height: 10px;
-    background:
-        linear-gradient(var(--vermelho-cuphead), var(--vermelho-cuphead)) center 2px / 100% 2px no-repeat,
-        linear-gradient(var(--vermelho-cuphead), var(--vermelho-cuphead)) center 7px / 100% 2px no-repeat;
-}
-
-h2::before {
-    content: '★';
-    color: var(--vermelho-cuphead);
-    font-size: 0.8em;
+    display: block;
+    width: 4.5rem;
+    height: 5px;
+    margin-top: 0.5rem;
+    border-radius: 3px;
+    background: var(--vermelho-cuphead);
+    box-shadow: 1.3rem 0 0 -1px var(--amarelo-vintage);
 }
 
 .titulo-pagina {
@@ -314,31 +450,28 @@ h2::before {
 }
 
 /* =====================================================================
-   Destaque (hero) em moldura de película
+   Imagem do T1 em moldura de película (dentro da história)
    ===================================================================== */
 .hero-image {
-    margin: 0;
+    margin: 0 0 2rem;
     position: relative;
     background-color: var(--tinta);
-    padding: 26px 0;
-    border-radius: 14px;
-    box-shadow: 12px 12px 0 var(--vermelho-cuphead), 12px 12px 0 3px var(--tinta);
+    padding: 22px 0 0;
+    border-radius: 6px;
+    box-shadow: 8px 8px 0 var(--vermelho-cuphead);
     overflow: hidden;
 }
 
-/* Furos de película em cima e embaixo */
-.hero-image::before, .hero-image::after {
+.hero-image::before {
     content: '';
     position: absolute;
+    top: 6px;
     left: 0;
     right: 0;
-    height: 12px;
-    background: repeating-linear-gradient(90deg, transparent 0 14px, var(--creme-escuro) 14px 30px, transparent 30px 44px);
+    height: 10px;
+    background: repeating-linear-gradient(90deg, transparent 0 12px, var(--creme-escuro) 12px 26px, transparent 26px 38px);
     opacity: 0.85;
 }
-
-.hero-image::before { top: 7px; }
-.hero-image::after { bottom: 7px; }
 
 .hero-image img {
     width: 100%;
@@ -350,40 +483,46 @@ h2::before {
 .hero-image figcaption {
     text-align: center;
     color: var(--amarelo-vintage);
-    padding: 1rem 1rem 0.2rem;
-    font-family: var(--fonte-titulo);
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    padding: 0.6rem 1rem 0.7rem;
+    font-family: var(--fonte-detalhe);
+    font-size: 1.05rem;
 }
 
 /* =====================================================================
-   Painéis de papel (história, formulários, conta, admin)
+   História (página de livro) e painéis das páginas Conta e Admin
    ===================================================================== */
-.section-historia, .painel {
-    position: relative;
-    background-color: var(--papel);
-    padding: 2.2rem;
-    border: 4px solid var(--tinta);
-    border-radius: 6px;
-    /* Moldura dupla de impressão antiga */
-    box-shadow: inset 0 0 0 6px var(--papel), inset 0 0 0 8px var(--sepia), 10px 10px 0 var(--amarelo-vintage), 10px 10px 0 3px var(--tinta);
+.section-historia {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 3rem;
+    align-items: start;
+}
+
+.section-historia h2 {
+    grid-column: 1 / -1;
 }
 
 .section-historia p {
     font-size: 1.08rem;
-    max-width: none;
+    max-width: 68ch;
 }
 
 /* Capitular na primeira letra da história */
 .section-historia p:first-of-type::first-letter {
     float: left;
     font-family: var(--fonte-titulo);
-    font-size: 3.6rem;
-    line-height: 0.9;
-    padding: 0.2rem 0.5rem 0 0;
+    font-size: 3.8rem;
+    line-height: 0.85;
+    padding: 0.3rem 0.5rem 0 0;
     color: var(--vermelho-cuphead);
 }
 
 .painel {
+    background-color: var(--papel);
+    padding: 2rem;
+    border: 3px solid var(--tinta);
+    border-radius: 8px;
+    box-shadow: 7px 7px 0 var(--tinta);
     margin-bottom: 2.5rem;
 }
 
@@ -402,12 +541,10 @@ h2::before {
     color: var(--amarelo-vintage);
 }
 
-.section-jogo h2::before { color: var(--amarelo-vintage); }
 
 .section-jogo h2::after {
-    background:
-        linear-gradient(var(--amarelo-vintage), var(--amarelo-vintage)) center 2px / 100% 2px no-repeat,
-        linear-gradient(var(--amarelo-vintage), var(--amarelo-vintage)) center 7px / 100% 2px no-repeat;
+    background: var(--amarelo-vintage);
+    box-shadow: 1.3rem 0 0 -1px var(--vermelho-cuphead);
 }
 
 .iframe-wrapper {
@@ -541,58 +678,88 @@ h2::before {
     gap: 2rem;
 }
 
-/* Cartão como um ingresso de cassino */
-.card {
-    position: relative;
-    background-color: var(--papel);
-    padding: 1.6rem 1.6rem 1.4rem;
-    border: 4px solid var(--tinta);
-    border-radius: 10px;
-    box-shadow: inset 0 0 0 5px var(--papel), inset 0 0 0 7px var(--vermelho-cuphead), 8px 8px 0 var(--vermelho-cuphead), 8px 8px 0 3px var(--tinta);
-    transition: transform 0.25s, box-shadow 0.25s;
+/* Chefes como cartas do baralho do cassino:
+   canto = dificuldade (valor) e ilha (naipe) */
+.grid-cards {
+    perspective: 1200px;
 }
 
-/* Recortes de ingresso nas laterais */
-.card::before, .card::after {
+.card {
+    --rx: 0deg;
+    --ry: 0deg;
+    --brilho-x: 50%;
+    --brilho-y: 50%;
+    --cor-naipe: var(--tinta);
+    position: relative;
+    background:
+        radial-gradient(circle at 50% 50%, transparent 60%, rgba(122, 82, 48, 0.08)),
+        var(--papel);
+    padding: 2.4rem 2.9rem 2rem;
+    border: 3px solid var(--tinta);
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 7px var(--papel), inset 0 0 0 9px var(--cor-naipe), 0 10px 0 -2px var(--creme-escuro), 0 10px 0 1px var(--tinta), 0 18px 24px rgba(42, 29, 18, 0.25);
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
+}
+
+.card.naipe-vermelho {
+    --cor-naipe: var(--vermelho-cuphead);
+}
+
+/* Reflexo de luz que acompanha o ponteiro */
+.card::after {
     content: '';
     position: absolute;
-    top: 50%;
-    width: 22px;
-    height: 22px;
-    margin-top: -11px;
-    border-radius: 50%;
-    background: var(--bg-pergaminho);
-    border: 4px solid var(--tinta);
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--brilho-x) var(--brilho-y), rgba(255, 255, 255, 0.55), transparent 45%);
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
-.card::before { left: -13px; clip-path: inset(0 0 0 50%); }
-.card::after { right: -13px; clip-path: inset(0 50% 0 0); }
-
-.card:hover {
-    transform: translateY(-6px) rotate(1.5deg);
-    box-shadow: inset 0 0 0 5px var(--papel), inset 0 0 0 7px var(--vermelho-cuphead), 12px 12px 0 var(--vermelho-cuphead), 12px 12px 0 3px var(--tinta);
-    z-index: 10;
+.card.inclinado {
+    transition: transform 0.08s linear, box-shadow 0.3s;
+    box-shadow: inset 0 0 0 7px var(--papel), inset 0 0 0 9px var(--cor-naipe), 0 10px 0 -2px var(--creme-escuro), 0 10px 0 1px var(--tinta), 0 30px 34px rgba(42, 29, 18, 0.3);
 }
 
-.card:nth-child(even):hover {
-    transform: translateY(-6px) rotate(-1.5deg);
+.card.inclinado::after {
+    opacity: 1;
 }
+
+.canto {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    color: var(--cor-naipe);
+    font-family: var(--fonte-titulo);
+    transform: translateZ(20px);
+}
+
+.canto-superior { top: 0.85rem; left: 0.8rem; }
+.canto-inferior { bottom: 0.85rem; right: 0.8rem; transform: translateZ(20px) rotate(180deg); }
+.canto-valor { font-size: 1.35rem; }
+.canto-naipe { font-size: 1.15rem; }
 
 .card h3 {
     font-size: 1.55rem;
     color: var(--tinta);
-    margin: 0.3rem 0 0.6rem;
+    margin: 0.2rem 0 0.6rem;
+    transform: translateZ(30px);
 }
 
 .tag {
     display: inline-block;
-    background: var(--vermelho-cuphead);
-    padding: 0.25rem 0.9rem;
+    background: var(--cor-naipe);
+    padding: 0.2rem 0.8rem;
     border-radius: 3px;
     font-family: var(--fonte-detalhe);
     font-size: 0.95rem;
     color: var(--texto-claro);
-    border: 2px solid var(--tinta);
     margin-bottom: 0.6rem;
     max-width: none;
 }
@@ -614,8 +781,8 @@ h2::before {
     border-radius: 6px;
     padding: 0.4rem 0.9rem;
     cursor: pointer;
-    box-shadow: 3px 3px 0 var(--tinta);
-    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 3px 0 var(--tinta);
+    transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .btn-taticas::after {
@@ -667,28 +834,33 @@ h2::before {
 }
 
 /* =====================================================================
-   Conquistas (barra lateral amarela)
+   Conquistas: o contrato do Diabo, com moedas para marcar
    ===================================================================== */
 .sidebar {
-    background-color: var(--amarelo-vintage);
-    padding: 1.8rem;
-    border-radius: 6px;
-    border: 4px solid var(--tinta);
-    box-shadow: inset 0 0 0 6px var(--amarelo-vintage), inset 0 0 0 8px var(--tinta), 10px 10px 0 var(--vermelho-cuphead), 10px 10px 0 3px var(--tinta);
+    position: relative;
+    background:
+        radial-gradient(ellipse at 0 0, rgba(122, 52, 20, 0.35), transparent 18%),
+        radial-gradient(ellipse at 100% 0, rgba(122, 52, 20, 0.3), transparent 16%),
+        radial-gradient(ellipse at 100% 100%, rgba(122, 52, 20, 0.35), transparent 20%),
+        radial-gradient(ellipse at 0 100%, rgba(122, 52, 20, 0.3), transparent 16%),
+        #f6e7c1;
+    padding: 2rem 1.8rem;
+    border-radius: 4px;
+    box-shadow: inset 0 0 30px rgba(122, 52, 20, 0.35), 0 14px 26px rgba(42, 29, 18, 0.3);
     height: fit-content;
+    transform: rotate(0.6deg);
 }
 
 .sidebar h2 {
     font-size: 1.5rem;
-    color: var(--tinta);
+    color: #7f0000;
+    text-align: center;
 }
 
-.sidebar h2::before { color: var(--tinta); }
-
 .sidebar h2::after {
-    background:
-        linear-gradient(var(--tinta), var(--tinta)) center 2px / 100% 2px no-repeat,
-        linear-gradient(var(--tinta), var(--tinta)) center 7px / 100% 2px no-repeat;
+    margin: 0.5rem auto 0;
+    background: #7f0000;
+    box-shadow: none;
 }
 
 .progresso-texto {
@@ -709,7 +881,7 @@ progress {
     overflow-y: auto;
     padding-right: 0.8rem;
     scrollbar-width: thin;
-    scrollbar-color: var(--vermelho-cuphead) rgba(255, 250, 240, 0.6);
+    scrollbar-color: var(--vermelho-cuphead) transparent;
 }
 
 .lista-conquistas {
@@ -719,8 +891,8 @@ progress {
 }
 
 .lista-conquistas li {
-    margin-bottom: 1rem;
-    border-bottom: 2px dotted rgba(20, 16, 16, 0.35);
+    margin-bottom: 0.9rem;
+    border-bottom: 1px dashed rgba(122, 52, 20, 0.45);
     padding-bottom: 0.8rem;
     font-size: 0.95rem;
 }
@@ -728,16 +900,16 @@ progress {
 .lista-conquistas li strong {
     font-family: var(--fonte-titulo);
     font-weight: 400;
-    font-size: 1.1rem;
-    color: #8e1414;
+    font-size: 1.08rem;
+    color: #7f0000;
     display: block;
 }
 
 .conquista-marcavel label {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.2rem 0.6rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 0.1rem 0.8rem;
     cursor: pointer;
     margin: 0;
     font-family: var(--fonte-texto);
@@ -745,15 +917,47 @@ progress {
 }
 
 .conquista-marcavel label strong {
-    flex: 1 1 70%;
+    grid-column: 2;
 }
 
-input[type="checkbox"] {
-    width: 1.3rem;
-    height: 1.3rem;
-    padding: 0;
-    accent-color: var(--vermelho-cuphead);
-    flex: 0 0 auto;
+.conquista-marcavel label input {
+    grid-row: 1 / span 2;
+}
+
+/* Checkbox em forma de moeda: vazia (contorno) ou cheia (ouro) */
+.conquista-marcavel input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 2rem;
+    height: 2rem;
+    margin: 0.1rem 0 0;
+    border-radius: 50%;
+    border: 2px dashed #7a5230;
+    background: transparent;
+    cursor: pointer;
+}
+
+.conquista-marcavel input[type="checkbox"]:checked {
+    border: 2px solid var(--tinta);
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7' fill='none' stroke='%23141010' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 70% no-repeat,
+        radial-gradient(circle at 35% 30%, #fff3b0 0 18%, #ffcf3f 45%, #d99a00 75%, #a86f00 100%);
+    box-shadow: inset 0 0 0 3px #b8860b, 0 2px 0 var(--tinta);
+}
+
+.conquista-marcavel input[type="checkbox"]:focus-visible {
+    outline: 4px solid var(--foco-acessivel);
+    outline-offset: 2px;
+}
+
+.moeda-girando {
+    animation: moeda-gira 0.7s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+@keyframes moeda-gira {
+    0% { transform: perspective(200px) rotateY(0) scale(1); }
+    50% { transform: perspective(200px) rotateY(270deg) scale(1.35); }
+    100% { transform: perspective(200px) rotateY(720deg) scale(1); }
 }
 
 /* =====================================================================
@@ -792,12 +996,10 @@ footer .container {
     color: var(--amarelo-vintage);
 }
 
-.form-container h2::before { color: var(--amarelo-vintage); }
 
 .form-container h2::after {
-    background:
-        linear-gradient(var(--amarelo-vintage), var(--amarelo-vintage)) center 2px / 100% 2px no-repeat,
-        linear-gradient(var(--amarelo-vintage), var(--amarelo-vintage)) center 7px / 100% 2px no-repeat;
+    background: var(--amarelo-vintage);
+    box-shadow: 1.3rem 0 0 -1px var(--vermelho-cuphead);
 }
 
 .form-contato {
@@ -856,32 +1058,34 @@ input:focus, textarea:focus, select:focus {
     opacity: 1;
 }
 
-/* Botões no estilo de letreiro */
+/* Botões em relevo (3D): a "espessura" é uma sombra sólida que some ao apertar */
 .btn-primario, .btn-voltar, .btn-secundario {
     display: inline-block;
+    position: relative;
     font-family: var(--fonte-titulo);
     font-size: 1.15rem;
     line-height: 1.3;
-    padding: 0.8rem 1.8rem;
+    padding: 0.75rem 1.8rem;
     border: 3px solid var(--tinta);
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     text-decoration: none;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform 0.12s, box-shadow 0.12s;
 }
 
 .btn-primario, .btn-voltar {
-    background-color: var(--vermelho-cuphead);
+    background: linear-gradient(#d83a3a, var(--vermelho-cuphead) 55%, #a51d1d);
     color: var(--texto-claro);
-    box-shadow: 6px 6px 0 var(--amarelo-vintage), 6px 6px 0 3px var(--tinta);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+    box-shadow: 0 7px 0 #6d0b0b, 0 7px 0 3px var(--tinta), 0 12px 16px rgba(20, 16, 16, 0.35);
 }
 
 .btn-secundario {
-    background-color: var(--tinta);
+    background: linear-gradient(#3a2f28, var(--tinta));
     color: var(--amarelo-vintage);
     font-size: 1rem;
-    padding: 0.65rem 1.4rem;
-    box-shadow: 4px 4px 0 var(--vermelho-cuphead);
+    padding: 0.6rem 1.3rem;
+    box-shadow: 0 5px 0 #000, 0 5px 0 3px var(--tinta), 0 9px 12px rgba(20, 16, 16, 0.3);
 }
 
 .btn-pequeno {
@@ -890,10 +1094,11 @@ input:focus, textarea:focus, select:focus {
     background-color: var(--vermelho-cuphead);
     color: var(--texto-claro);
     border: 2px solid var(--tinta);
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 0.3rem 0.75rem;
     cursor: pointer;
-    box-shadow: 2px 2px 0 var(--tinta);
+    box-shadow: 0 3px 0 var(--tinta);
+    transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .btn-neutro {
@@ -904,13 +1109,29 @@ input:focus, textarea:focus, select:focus {
     background-color: #7f0000;
 }
 
-.btn-primario:hover, .btn-voltar:hover, .btn-secundario:hover, .btn-taticas:hover, .btn-pequeno:hover {
-    transform: translateY(-3px);
+.btn-primario:hover, .btn-voltar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 0 #6d0b0b, 0 9px 0 3px var(--tinta), 0 15px 18px rgba(20, 16, 16, 0.35);
 }
 
-.btn-primario:active, .btn-voltar:active, .btn-secundario:active, .btn-taticas:active, .btn-pequeno:active {
-    transform: translateY(2px);
-    box-shadow: 1px 1px 0 var(--tinta);
+.btn-secundario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 #000, 0 7px 0 3px var(--tinta), 0 11px 14px rgba(20, 16, 16, 0.3);
+}
+
+.btn-primario:active, .btn-voltar:active {
+    transform: translateY(6px);
+    box-shadow: 0 1px 0 #6d0b0b, 0 1px 0 3px var(--tinta);
+}
+
+.btn-secundario:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #000, 0 1px 0 3px var(--tinta);
+}
+
+.btn-pequeno:active, .btn-taticas:active {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 var(--tinta);
 }
 
 button:disabled, button:disabled:hover {
@@ -1067,6 +1288,18 @@ button:disabled, button:disabled:hover {
 /* =====================================================================
    Telas médias e grandes
    ===================================================================== */
+@media (max-width: 600px) {
+    .cortina { transform: scaleX(0.12); }
+    @keyframes cortina-abre { from { transform: scaleX(1); } }
+    .palco { padding-top: 3.5rem; }
+}
+
+@media (min-width: 900px) {
+    .section-historia { grid-template-columns: 1.15fr 1fr; }
+    .section-historia .hero-image { grid-column: 2; grid-row: 2 / span 3; transform: rotate(1.5deg); }
+    .section-historia p { grid-column: 1; }
+}
+
 @media (min-width: 768px) {
     header { position: sticky; top: 0; } /* no celular o cabeçalho fixo ocuparia metade da tela */
     .layout-duplo { flex-direction: row; align-items: flex-start; }

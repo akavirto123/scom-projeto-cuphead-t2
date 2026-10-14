@@ -5,6 +5,7 @@
 import { api, query } from './api.js';
 import { iniciarCabecalho } from './cabecalho.js';
 import { el, formatarData, limparMensagem, mostrarMensagem, substituirConteudo, textoDoErro } from './dom.js';
+import { girarMoeda, inclinarAoPassar } from './efeitos.js';
 
 const POR_PAGINA = 6;
 const estado = { pagina: 1, totalPaginas: 1, ilha: '', busca: '', usuario: null };
@@ -15,6 +16,17 @@ const $ = (id) => document.getElementById(id);
 
 function estrelas(dificuldade) {
   return '★'.repeat(dificuldade) + '☆'.repeat(5 - dificuldade);
+}
+
+// Cada ilha vira um naipe do baralho do cassino do King Dice.
+const NAIPES = { 1: '♣', 2: '♦', 3: '♥', 4: '♠' };
+
+/** Índice de canto da carta: valor = dificuldade, naipe = ilha (decorativo). */
+function cantoDaCarta(chefe, posicao) {
+  const naipe = NAIPES[chefe.ilhaId] ?? '★';
+  return el('span', { class: `canto canto-${posicao}`, 'aria-hidden': 'true' },
+    el('span', { class: 'canto-valor' }, String(chefe.dificuldade)),
+    el('span', { class: 'canto-naipe' }, naipe));
 }
 
 async function alternarTaticas(chefe, botao, container) {
@@ -49,9 +61,12 @@ function cartaoDoChefe(chefe) {
   );
   botao.addEventListener('click', () => alternarTaticas(chefe, botao, listaTaticas));
 
-  return el(
+  const naipeVermelho = chefe.ilhaId === 2 || chefe.ilhaId === 3;
+  const carta = el(
     'article',
-    { class: 'card' },
+    { class: `card${naipeVermelho ? ' naipe-vermelho' : ''}` },
+    cantoDaCarta(chefe, 'superior'),
+    cantoDaCarta(chefe, 'inferior'),
     el('h3', {}, chefe.nome),
     el('p', { class: 'tag' }, `${chefe.ilhaNome} - ${chefe.fase}`),
     el('p', { class: 'dificuldade', 'aria-label': `Dificuldade ${chefe.dificuldade} de 5` }, estrelas(chefe.dificuldade)),
@@ -59,6 +74,8 @@ function cartaoDoChefe(chefe) {
     botao,
     listaTaticas,
   );
+  inclinarAoPassar(carta);
+  return carta;
 }
 
 async function carregarChefes() {
@@ -136,7 +153,7 @@ async function carregarConquistas() {
         caixa.disabled = true;
         try {
           const url = `/api/conquistas/${conquista.id}/progresso`;
-          if (caixa.checked) { await api.put(url); concluidas.add(conquista.id); }
+          if (caixa.checked) { girarMoeda(caixa); await api.put(url); concluidas.add(conquista.id); }
           else { await api.delete(url); concluidas.delete(conquista.id); }
           atualizarProgresso(concluidas.size, conquistas.length);
         } catch (erro) {
