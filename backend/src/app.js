@@ -9,21 +9,69 @@
 import path from 'node:path';
 import express from 'express';
 import helmet from 'helmet';
-import { config } from './config/env.js';
-import { logger } from './config/logger.js';
+import { config as configPadrao } from './config/env.js';
+import { logger as loggerPadrao } from './config/logger.js';
+
 import { criarRastreioDeRequisicao } from './middlewares/requisicao.js';
 import { criarTratadorDeErros, rotaNaoEncontrada } from './middlewares/tratadorErros.js';
+import { criarCarregadorDeUsuario, criarMiddlewareDeSessao } from './middlewares/sessao.js';
+import { criarProtecaoCsrf } from './middlewares/csrf.js';
+import { criarMiddlewaresDeAcesso } from './middlewares/autorizacao.js';
+import { criarLimitadorDaApi, criarLimitadorDeLogin } from './middlewares/limitadores.js';
 
-const PASTA_FRONTEND = path.resolve(config.raizBackend, '..', 'frontend');
+import { criarUsuarioRepository } from './repositories/usuarioRepository.js';
 
-export function criarApp({ pool }) {
-  const app = express();
+import { criarHasherBcrypt } from './services/hasher.js';
+import { criarAuthService } from './services/authService.js';
+import { criarUsuarioService } from './services/usuarioService.js';
 
-  app.use(helmet());
-  app.use(criarRastreioDeRequisicao({ logger }));
-  app.use(express.json({ limit: '10kb' }));
+import { criarAuthController } from './controllers/authController.js';
+import { criarUsuarioController } from './controllers/usuarioController.js';
 
-  app.get('/api/saude', async (req, res, next) => {
+import { criarRotasAuth } from './routes/authRoutes.js';
+import { criarRotasUsuarios } from './routes/usuarioRoutes.js';
+
+/** Content Security Policy: de onde a página pode carregar cada recurso. */
+const POLITICA_DE_CONTEUDO = {
+  useDefaults: false,
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+    styleSrc: ["'self'", 'https://fonts.googleapis.com'],
+    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    imgSrc: ["'self'", 'data:', 'https:'],
+    frameSrc: ['https://scratch.mit.edu'],
+    connectSrc: ["'self'"],
+    objectSrc: ["'none'"],
+    baseUri: ["'self'"],
+    formAction: ["'self'"],
+    frameAncestors: ["'none'"],
+  },
+};
+
+export function criarApp({ pool, config = configPadrao, logger = loggerPadrao }) {
+  // ---- Camada de acesso a dados ----
+  const usuarioRepository = criarUsuarioRepository(pool);
+
+  // ---- Camada de lógica de aplicação ----
+  const hasher = criarHasherBcrypt(config.seguranca.custoBcrypt);
+  const authService = criarAuthService({ usuarioRepository, hasher, logger });
+  const usuarioService = criarUsuarioService({ usuarioRepository, logger });
+
+  // ---- Camada HTTP ----
+  const configSessao = config.sessao;
+  const authController = criarAuthController({ authService, logger, configSessao });
+  const usuarioController = criarUsuarioController({ usuarioService });
+  const acesso = criarMiddlewaresDeAcesso({ logger });
+
+  const api = express.Router();
+  api.use(criarLimitadorDaApi({ maximoPorMinuto: config.seguranca.limiteApiPorMinuto, logger }));
+  api.use(express.json({ limit: '10kb' }));
+  api.use(criarMiddlewareDeSessao({ pool, configSessao, emTeste: config.emTeste }));
+  api.use(criarCarregadorDeUsuario({ usuarioService }));
+  api.use(criarProtecaoCsrf({ logger }));
+
+  api.get('/saude', async (req, res, next) => {
     try {
       await pool.query('SELECT 1');
       res.json({ dados: { status: 'ok', banco: 'ok' } });
@@ -32,8 +80,22 @@ export function criarApp({ pool }) {
     }
   });
 
-  app.use('/api', rotaNaoEncontrada);
-  app.use(express.static(PASTA_FRONTEND));
+  const limitadorDeLogin = criarLimitadorDeLogin({
+    maximo: config.seguranca.limiteLoginPorJanela,
+    janelaMinutos: config.seguranca.janelaLoginMinutos,
+    logger,
+  });
+  api.use('/auth', criarRotasAuth({ authController, acesso, limitadorDeLogin }));
+  api.use('/usuarios', criarRotasUsuarios({ usuarioController, acesso }));
+  api.use(rotaNaoEncontrada);
+
+  // ---- Aplicação ----
+  const app = express();
+  app.disable('x-powered-by');
+  app.use(helmet({ contentSecurityPolicy: POLITICA_DE_CONTEUDO }));
+  app.use(criarRastreioDeRequisicao({ logger }));
+  app.use('/api', api);
+  app.use(express.static(path.resolve(config.raizBackend, '..', 'frontend')));
   app.use(criarTratadorDeErros({ logger, emDesenvolvimento: config.emDesenvolvimento }));
 
   return app;
