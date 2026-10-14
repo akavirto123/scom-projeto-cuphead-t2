@@ -50,8 +50,8 @@ const POLITICA_DE_CONTEUDO = {
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'"],
-    styleSrc: ["'self'", 'https://fonts.googleapis.com'],
-    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    styleSrc: ["'self'"],
+    fontSrc: ["'self'"],
     imgSrc: ["'self'", 'data:', 'https:'],
     frameSrc: ['https://scratch.mit.edu'],
     connectSrc: ["'self'"],
