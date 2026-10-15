@@ -1,6 +1,14 @@
-*   8e027b2 (HEAD -> main) release: Trabalho Individual II com palco de abertura e cartas 3D
+*   4b51b86 (HEAD -> main) release: Trabalho Individual II com animações 3D revisadas
 |\  
-| *   c58e677 (develop) merge: docs/novo-visual-e-repositorio em develop
+| * f2c19b7 (develop) merge: feature/animacoes-3d em develop
+|/| 
+| * 20dfda3 (feature/animacoes-3d) docs: atualiza capturas e descrição das animações no relatório
+| * 62f77c0 feat(frontend): melhora as animações 3D do palco, das cartas e das moedas
+|/  
+* 51d0f13 docs(relatorio): atualiza histórico Git no anexo F
+*   8e027b2 release: Trabalho Individual II com palco de abertura e cartas 3D
+|\  
+| *   c58e677 merge: docs/novo-visual-e-repositorio em develop
 | |\  
 | | * 285526e (docs/novo-visual-e-repositorio) docs: atualiza capturas, Lighthouse e endereço do novo repositório
 | |/  
