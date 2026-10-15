@@ -5,7 +5,7 @@
 import { api, query } from './api.js';
 import { iniciarCabecalho } from './cabecalho.js';
 import { el, formatarData, limparMensagem, mostrarMensagem, substituirConteudo, textoDoErro } from './dom.js';
-import { girarMoeda, inclinarAoPassar } from './efeitos.js';
+import { distribuirCartas, girarMoeda, inclinarAoPassar } from './efeitos.js';
 
 const POR_PAGINA = 6;
 const estado = { pagina: 1, totalPaginas: 1, ilha: '', busca: '', usuario: null };
@@ -62,9 +62,10 @@ function cartaoDoChefe(chefe) {
   botao.addEventListener('click', () => alternarTaticas(chefe, botao, listaTaticas));
 
   const naipeVermelho = chefe.ilhaId === 2 || chefe.ilhaId === 3;
-  const carta = el(
-    'article',
-    { class: `card${naipeVermelho ? ' naipe-vermelho' : ''}` },
+  // Frente (conteúdo) e verso (padrão do baralho) giram juntos ao distribuir.
+  const frente = el(
+    'div',
+    { class: 'carta-frente' },
     cantoDaCarta(chefe, 'superior'),
     cantoDaCarta(chefe, 'inferior'),
     el('h3', {}, chefe.nome),
@@ -73,6 +74,12 @@ function cartaoDoChefe(chefe) {
     el('p', {}, chefe.estrategia),
     botao,
     listaTaticas,
+  );
+  const verso = el('div', { class: 'carta-verso', 'aria-hidden': 'true' });
+  const carta = el(
+    'article',
+    { class: `card${naipeVermelho ? ' naipe-vermelho' : ''}` },
+    el('div', { class: 'carta-giro' }, frente, verso),
   );
   inclinarAoPassar(carta);
   return carta;
@@ -89,7 +96,9 @@ async function carregarChefes() {
       `/api/chefes${query({ pagina: estado.pagina, limite: POR_PAGINA, ilha: estado.ilha, busca: estado.busca })}`,
     );
     estado.totalPaginas = paginacao.totalPaginas;
-    substituirConteudo(lista, dados.map(cartaoDoChefe));
+    const cartas = dados.map(cartaoDoChefe);
+    substituirConteudo(lista, cartas);
+    distribuirCartas(cartas);
 
     if (dados.length) limparMensagem(status);
     else mostrarMensagem(status, 'info', estado.busca
